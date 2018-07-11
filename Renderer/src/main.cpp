@@ -1,13 +1,11 @@
 #include <iostream>
 using namespace std;
 
-#include "RayTracer/Test.h"
+#include "RayTracer/Sphere.h"
 
 int main(int argc, char** argv)
 {
-    cout << "hey rays!" << endl;
-    auto t = Test();
-    cout << t.f() << endl;
+    auto s = Sphere();
     
     return 0;
 }
