@@ -1,8 +1,6 @@
 # OpenTrace
 
-```
-Cross-platform raytracer.
-```
+A Cross-platform raytracer
 
 ## Installing
 
