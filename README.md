@@ -18,3 +18,9 @@ make
 ```
 ./Renderer/renderer
 ```
+
+## Testing
+
+```
+./Tests/renderer_test
+```
