@@ -19,4 +19,5 @@ include_directories(${PROJECT_ROOT_DIR}/Eigen)
 
 add_subdirectory(RayTracer)
 add_subdirectory(Renderer)
+add_subdirectory(GoogleTest)
 add_subdirectory(Tests)
