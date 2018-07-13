@@ -5,6 +5,13 @@
 #include <iostream>
 using namespace std;
 
+void PNGExporter::Export(const ImagePlane& imagePlane)
+{
+    auto pixelsInRGBAFormat = imagePlane.GetPixelsInRGBAFormat();
+
+    Export(pixelsInRGBAFormat, imagePlane.Width(), imagePlane.Height());
+}
+
 void PNGExporter::Export(const std::vector<unsigned char>& imageData, int width, int height)
 {
     if (imageData.size() != width*height*4)
