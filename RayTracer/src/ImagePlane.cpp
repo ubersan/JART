@@ -2,28 +2,33 @@
 
 using namespace std;
 
-ImagePlane::ImagePlane(int width, int height)
-    : _width(width), _height(height), _pixels(vector<Pixel>(width*height, Pixel::Red()))
+ImagePlane::ImagePlane(int columns, int rows, const Eigen::Vector3f& position)
+    : _columns(columns), _rows(rows), _position(position), _pixels(vector<Pixel>(columns*rows, Pixel::Red()))
 {
 }
 
 vector<unsigned char> ImagePlane::GetPixelsInRGBAFormat() const
 {
     auto rawDataStart = GetDataPointer();
-    auto rawDataEnd = GetDataPointer() + (_width*_height*4);
+    auto rawDataEnd = GetDataPointer() + (_columns*_rows*4);
     vector<unsigned char> rgba(rawDataStart, rawDataEnd);
 
     return rgba;
 }
 
-int ImagePlane::Width() const
+int ImagePlane::Columns() const
 {
-    return _width;
+    return _columns;
 }
 
-int ImagePlane::Height() const
+int ImagePlane::Rows() const
 {
-    return _height;
+    return _rows;
+}
+
+void ImagePlane::SetPixel(int row, int column, const Pixel& pixel)
+{
+    _pixels[row*_columns + column] = pixel;
 }
 
 unsigned char* ImagePlane::GetDataPointer() const

@@ -12,7 +12,7 @@ int main(int argc, char** argv)
 {
     auto camera = Camera();
 
-    auto s = Sphere();
+    auto s = new Sphere();
     auto scene = Scene(camera, {s});
     auto imagePlane = scene.Render();
 

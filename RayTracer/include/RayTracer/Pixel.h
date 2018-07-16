@@ -11,7 +11,7 @@ public:
 
     static Pixel Black();
     static Pixel Red();
-
+    
 private:
     RGBA _rgba;
 };

@@ -7,18 +7,22 @@
 class ImagePlane
 {
 public:
-    ImagePlane(int widht, int height);
+    ImagePlane(int columns, int rows, const Eigen::Vector3f& position);
 
     std::vector<unsigned char> GetPixelsInRGBAFormat() const;
 
-    int Width() const;
-    int Height() const;
+    int Columns() const;
+    int Rows() const;
+
+    void SetPixel(int row, int column, const Pixel& pixel);
 
 private:
     unsigned char* GetDataPointer() const;
 
-    int _width;
-    int _height;
+    int _columns;
+    int _rows;
+
+    Eigen::Vector3f _position;
 
     std::vector<Pixel> _pixels;
 };

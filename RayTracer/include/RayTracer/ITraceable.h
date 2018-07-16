@@ -11,7 +11,7 @@ public:
     // ITraceable*, but then we lose the very important instance locality when
     // iterating over the objects. This can happens a lot, because every ray checks
     // all objects for collisions, shadowing, ect...
-    virtual Pixel Trace(const Eigen::Vector3f& origin, const Eigen::Vector3f& direction)
+    virtual bool Trace(const Eigen::Vector3f& origin, const Eigen::Vector3f& direction) const
     {
         throw std::runtime_error("Not implemented");
     }
