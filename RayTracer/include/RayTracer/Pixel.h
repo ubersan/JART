@@ -12,6 +12,8 @@ public:
     static Pixel Black();
     static Pixel Red();
     
+    bool operator==(const Pixel& other) const;
+
 private:
     RGBA _rgba;
 };

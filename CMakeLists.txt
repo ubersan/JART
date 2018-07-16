@@ -12,12 +12,11 @@ set(PROJECT_ROOT_DIR ${PROJECT_SOURCE_DIR})
 
 # Is currently needed for all projects, because the
 # includes of the RayTracer headers, recursively
-# also include the Eigen headers into the Renderer executable.
-# This can be improved by providing an Eigen-less interface between
-# the Renderer and the RayTracer library.
+# also include the Eigen headers.
 include_directories(${PROJECT_ROOT_DIR}/Eigen)
 
 add_subdirectory(RayTracer)
+add_subdirectory(ImageIO)
 add_subdirectory(Renderer)
 add_subdirectory(GoogleTest)
 add_subdirectory(Tests)

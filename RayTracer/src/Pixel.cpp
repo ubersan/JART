@@ -14,3 +14,8 @@ Pixel Pixel::Red()
 {
     return Pixel(255, 0, 0);
 }
+
+bool Pixel::operator==(const Pixel& other) const
+{
+    return _rgba == other._rgba;
+}
