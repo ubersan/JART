@@ -10,7 +10,6 @@ ImagePlane::ImagePlane(int columns, int rows, const Eigen::Vector3f& position)
 ImagePlane::ImagePlane(int columns, int rows, const std::vector<unsigned char> imageData)
     : ImagePlane(columns, rows, Eigen::Vector3f::Zero())
 {
-    cout << "size: " << imageData.size() << endl;
     for (auto i = 0; i < imageData.size(); i += 4)
     {
         auto r = imageData[i];

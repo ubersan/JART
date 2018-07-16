@@ -16,9 +16,9 @@ int main(int argc, char** argv)
     auto scene = Scene(camera, {s});
     auto imagePlane = scene.Render();
 
-    //ImageIO::Export(imagePlane);
-    auto plane = ImageIO::Import("/home/shuber/dev/RayTracer/Tests/ground_truths/single_red_sphere.png");
-    ImageIO::Export(plane);
+    ImageIO::Export(imagePlane);
+    //auto plane = ImageIO::Import("/home/shuber/dev/RayTracer/Tests/ground_truths/single_red_sphere.png");
+    //ImageIO::Export(plane);
 
     return 0;
 }
