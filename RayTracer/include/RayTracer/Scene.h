@@ -14,11 +14,10 @@ class Scene
 public:
     Scene(const Camera& camera, const std::vector<ITraceable*>& sceneObjects);
 
-    const ImagePlane& Render();
+    ImagePlane Render();
     Pixel Trace(const Position& origin, const Direction& direction) const;
 private:
 
     Camera _camera;
     std::vector<ITraceable*> _sceneObjects;
-    ImagePlane _imagePlane;
 };

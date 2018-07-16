@@ -7,7 +7,6 @@ class Position
 {
 public:
     Position(float x, float y, float z);
-    Position(const Eigen::Vector3f& position);
 
     float X() const;
     float Y() const;
@@ -19,5 +18,7 @@ public:
     Position operator+(const Position& other);
     Position operator-(const Position& other) const;
 private:
+    Position(const Eigen::Vector3f& position);
+
     Eigen::Vector3f _position;
 };

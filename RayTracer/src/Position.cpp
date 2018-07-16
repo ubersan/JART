@@ -13,7 +13,8 @@ Position::Position(const Eigen::Vector3f& position)
 
 float Position::X() const
 {
-    return _position.x();
+    return _position.x();float Dot(const Position& other);
+    float Dot(const Direction& direction);
 }
 
 float Position::Y() const
