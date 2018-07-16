@@ -14,8 +14,8 @@ int main(int argc, char** argv)
 {
     auto camera = Camera{Position{0.f, 0.f, 10.f}, Direction{0.f, 0.f, -1.f}, Direction{0.f, 1.f, 0.f}};
 
-    auto s = new Sphere();
-    auto scene = Scene(camera, {s});
+    auto scene = Scene(camera);
+    scene.AddSphere(Position{0.f, 0.f, 0.f}, 1.f);
     
     auto imagePlane = scene.Render();
     

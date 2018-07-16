@@ -3,7 +3,7 @@
 using namespace std;
 
 ImagePlane::ImagePlane(int columns, int rows, const Position& position)
-    : _columns(columns), _rows(rows), _position(position), _pixels(vector<Pixel>(columns*rows, Pixel::Red()))
+    : _columns(columns), _rows(rows), _position(position), _pixels(vector<Pixel>(columns*rows, Pixel::Black()))
 {
 }
 
@@ -16,9 +16,7 @@ ImagePlane::ImagePlane(int columns, int rows, const std::vector<unsigned char> i
         auto g = imageData[i + 1];
         auto b = imageData[i + 2];
 
-        auto pixel = Pixel(r, g, b);
-        
-        _pixels[i/4] = pixel;
+        _pixels[i/4] = Pixel{r, g, b};
     }
 }
 
@@ -26,9 +24,8 @@ vector<unsigned char> ImagePlane::GetPixelsInRGBAFormat() const
 {
     auto rawDataStart = GetDataPointer();
     auto rawDataEnd = GetDataPointer() + (_columns*_rows*4);
-    vector<unsigned char> rgba(rawDataStart, rawDataEnd);
 
-    return rgba;
+    return vector<unsigned char>(rawDataStart, rawDataEnd);
 }
 
 int ImagePlane::Columns() const

@@ -1,11 +1,12 @@
 #include "Scene.h"
 #include "Direction.h"
+#include "Sphere.h"
 
 #include <iostream>
 using namespace std;
 
-Scene::Scene(const Camera& camera, const vector<ITraceable*>& sceneObjects)
-    : _camera(camera), _sceneObjects(sceneObjects)
+Scene::Scene(const Camera& camera)
+    : _camera(camera), _sceneObjects(vector<unique_ptr<ITraceable>>())
 {
 }
 
@@ -19,8 +20,7 @@ ImagePlane Scene::Render()
         for (auto column = 0; column < _camera.Columns(); ++column)
         {     
             auto const currentPixel = topLeft + Position{pixelSize * row, -pixelSize * column, 0.f};
-            auto offsetVector = currentPixel - _camera.GetPosition();
-            auto direction = Direction{offsetVector.X(), offsetVector.Y(), offsetVector.Z()};
+            auto direction = (currentPixel - _camera.GetPosition()).ToDirection();
 
             auto pixel = Trace(_camera.GetPosition(), direction);
 
@@ -43,4 +43,9 @@ Pixel Scene::Trace(const Position& origin, const Direction& direction) const
     }
 
     return pixel;
+}
+
+void Scene::AddSphere(const Position& center, float radius)
+{
+    _sceneObjects.push_back(make_unique<Sphere>(center, radius));
 }

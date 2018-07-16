@@ -15,6 +15,8 @@ public:
     float Dot(const Position& other);
     float Dot(const Direction& direction);
 
+    Direction ToDirection() const;
+
     Position operator+(const Position& other);
     Position operator-(const Position& other) const;
 private:

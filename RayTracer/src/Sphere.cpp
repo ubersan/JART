@@ -37,8 +37,6 @@ bool Sphere::Trace(const Position& origin, const Direction& direction) const
             return false;
         }
     }
-
-    auto t = t0;
-
+    
     return true;
 }

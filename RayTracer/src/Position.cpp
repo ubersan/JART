@@ -32,6 +32,11 @@ float Position::Dot(const Position& other)
     return _position.dot(other._position);
 }
 
+Direction Position::ToDirection() const
+{
+    return Direction{_position.x(), _position.y(), _position.z()};
+}
+
 float Position::Dot(const Direction& direction)
 {
     return _position.dot(Eigen::Vector3f{direction.X(), direction.Y(), direction.Z()});

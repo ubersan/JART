@@ -11,8 +11,9 @@ TEST(Single_red_Sphere, Full_Scene)
 {
     auto camera = Camera{Position{0.f, 0.f, 10.f}, Direction{0.f, 0.f, -1.f}, Direction{0.f, 1.f, 0.f}};
 
-    auto s = new Sphere();
-    auto scene = Scene(camera, {s});
+    auto scene = Scene(camera);
+    scene.AddSphere(Position{0.f, 0.f, 0.f}, 1.f);
+
     auto actualImagePlane = scene.Render();
 
     auto expectedImagePlane = ImageIO::Import("/home/shuber/dev/RayTracer/Tests/ground_truths/single_red_sphere.png");
