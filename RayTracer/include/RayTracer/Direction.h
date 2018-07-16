@@ -6,9 +6,10 @@ class Direction
 {
 public:
     Direction(float x, float y, float z);
-    Direction(const Eigen::Vector3f& notNormalizedDirection);
 
-    Eigen::Vector3f GetDirection() const;
+    float X() const;
+    float Y() const;
+    float Z() const;
 private:
     Eigen::Vector3f _normalizedDirection;
 };

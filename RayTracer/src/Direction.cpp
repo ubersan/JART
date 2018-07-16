@@ -1,16 +1,21 @@
 #include "Direction.h"
 
 Direction::Direction(float x, float y, float z)
-    : Direction(Eigen::Vector3f{x, y, z})
+    : _normalizedDirection(Eigen::Vector3f{x, y, z}.normalized())
 {
 }
 
-Direction::Direction(const Eigen::Vector3f& notNormalizedDirection)
-    : _normalizedDirection(notNormalizedDirection.normalized())
+float Direction::X() const
 {
+    return _normalizedDirection.x();
 }
 
-Eigen::Vector3f Direction::GetDirection() const
+float Direction::Y() const
 {
-    return _normalizedDirection;
+    return _normalizedDirection.y();
+}
+
+float Direction::Z() const
+{
+    return _normalizedDirection.z();
 }

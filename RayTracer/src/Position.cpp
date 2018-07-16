@@ -33,7 +33,7 @@ float Position::Dot(const Position& other)
 
 float Position::Dot(const Direction& direction)
 {
-    return _position.dot(direction.GetDirection());
+    return _position.dot(Eigen::Vector3f{direction.X(), direction.Y(), direction.Z()});
 }
 
 Position Position::operator+(const Position& other)
