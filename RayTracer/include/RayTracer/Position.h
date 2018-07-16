@@ -17,7 +17,8 @@ public:
 
     Direction ToDirection() const;
 
-    Position operator+(const Position& other);
+    Position operator+(const Position& other) const;
+    Position operator+(const Direction& direction) const;
     Position operator-(const Position& other) const;
 private:
     Position(const Eigen::Vector3f& position);

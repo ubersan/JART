@@ -1,7 +1,7 @@
 #include "Camera.h"
 
 Camera::Camera(const Position& position, const Direction& lookAt, const Direction& up)
-    : _position(position), _lookAt(lookAt), _up(up), _imagePlane(ImagePlane{900, 600, position - Position{0.f, 0.f, 1.f}}) // TODO: Use -lookAt not default +z
+    : _position(position), _lookAt(lookAt), _up(up), _imagePlane(ImagePlane{900, 600, position + lookAt})
 {
     // The ImagePlane is 1 unit away from the camera
     // With a FOV of 45 degrees this yields an imagePlane height
@@ -40,8 +40,7 @@ Position Camera::GetTopLeftPixelPosition() const
     auto topLeftCenterX = -_pixelSize * _imagePlane.Rows() / 2 + (_pixelSize / 2.f);
     auto topLeftCenterY = _pixelSize * _imagePlane.Columns() / 2 - (_pixelSize / 2.f); 
 
-    // TODO: Use lookAt, not +z as standard
-    return Position{topLeftCenterX, topLeftCenterY, _position.Z() - 1.f};
+    return Position{topLeftCenterX, topLeftCenterY, _position.Z()} + _lookAt;
 }
 
 ImagePlane Camera::GetImagePlane() const

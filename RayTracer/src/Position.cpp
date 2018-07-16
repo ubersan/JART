@@ -42,9 +42,14 @@ float Position::Dot(const Direction& direction)
     return _position.dot(Eigen::Vector3f{direction.X(), direction.Y(), direction.Z()});
 }
 
-Position Position::operator+(const Position& other)
+Position Position::operator+(const Position& other) const
 {
     return Position{_position + other._position};
+}
+
+Position Position::operator+(const Direction& direction) const
+{
+    return Position{_position + Eigen::Vector3f{direction.X(), direction.Y(), direction.Z()}};
 }
 
 Position Position::operator-(const Position& other) const
