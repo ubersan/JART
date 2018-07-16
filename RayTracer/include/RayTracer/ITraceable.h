@@ -1,6 +1,7 @@
 #pragma once
 
-#include <Eigen/Core>
+#include "Position.h"
+#include "Direction.h"
 #include "Pixel.h"
 
 class ITraceable
@@ -11,7 +12,7 @@ public:
     // ITraceable*, but then we lose the very important instance locality when
     // iterating over the objects. This can happens a lot, because every ray checks
     // all objects for collisions, shadowing, ect...
-    virtual bool Trace(const Eigen::Vector3f& origin, const Eigen::Vector3f& direction) const
+    virtual bool Trace(const Position& origin, const Direction& direction) const
     {
         throw std::runtime_error("Not implemented");
     }

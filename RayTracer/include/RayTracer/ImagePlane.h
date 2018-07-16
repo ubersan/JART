@@ -3,11 +3,12 @@
 #include <vector>
 
 #include "Pixel.h"
+#include "Position.h"
 
 class ImagePlane
 {
 public:
-    ImagePlane(int columns, int rows, const Eigen::Vector3f& position);
+    ImagePlane(int columns, int rows, const Position& position);
     ImagePlane(int columns, int rows, const std::vector<unsigned char> imageData);
 
     std::vector<unsigned char> GetPixelsInRGBAFormat() const;
@@ -24,7 +25,7 @@ private:
     int _columns;
     int _rows;
 
-    Eigen::Vector3f _position;
+    Position _position;
 
     std::vector<Pixel> _pixels;
 };

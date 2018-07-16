@@ -1,9 +1,11 @@
 #include "Scene.h"
+#include "Direction.h"
+
 #include <iostream>
 using namespace std;
 
 Scene::Scene(const Camera& camera, const vector<ITraceable*>& sceneObjects)
-    : _camera(camera), _sceneObjects(sceneObjects), _imagePlane(ImagePlane{900, 600, camera.GetPosition() - Eigen::Vector3f{0.f, 0.f, 1.f}})
+    : _camera(camera), _sceneObjects(sceneObjects), _imagePlane(ImagePlane{900, 600, camera.GetPosition() - Position{0.f, 0.f, 1.f}})
 {
 }
 
@@ -19,15 +21,16 @@ const ImagePlane& Scene::Render()
     auto topLeftCenterX = -pixelSize * _imagePlane.Rows() / 2 + (pixelSize / 2.f);
     auto topLeftCenterY = pixelSize * _imagePlane.Columns() / 2 - (pixelSize / 2.f); 
 
-    auto topLeft = Eigen::Vector3f(topLeftCenterX, topLeftCenterY, _camera.GetPosition().z() - 1.f);
+    auto topLeft = Position{topLeftCenterX, topLeftCenterY, _camera.GetPosition().Z() - 1.f};
 
     for (auto row = 0; row < _imagePlane.Rows(); ++row)
     {
         for (auto column = 0; column < _imagePlane.Columns(); ++column)
         {
             
-            auto currentPixel = topLeft + Eigen::Vector3f(pixelSize * row, -pixelSize * column, 0.f);
-            auto direction = (currentPixel - _camera.GetPosition()).normalized();
+            auto const currentPixel = topLeft + Position{pixelSize * row, -pixelSize * column, 0.f};
+            auto offsetVector = currentPixel - _camera.GetPosition();
+            auto direction = Direction{offsetVector.X(), offsetVector.Y(), offsetVector.Z()};
 
             auto pixel = Trace(_camera.GetPosition(), direction);
 
@@ -38,7 +41,7 @@ const ImagePlane& Scene::Render()
     return _imagePlane;
 }
 
-Pixel Scene::Trace(const Eigen::Vector3f& origin, const Eigen::Vector3f& direction) const
+Pixel Scene::Trace(const Position& origin, const Direction& direction) const
 {
     auto pixel = Pixel::Black();
 

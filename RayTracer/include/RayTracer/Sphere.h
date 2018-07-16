@@ -1,7 +1,6 @@
 #pragma once
 
-#include <Eigen/Core>
-
+#include "Position.h"
 #include "Pixel.h"
 #include "ITraceable.h"
 
@@ -9,11 +8,11 @@ class Sphere : public ITraceable
 {
 public:
     Sphere();
-    Sphere(const Eigen::Vector3f& position, float radius);
+    Sphere(const Position& center, float radius);
 
-    bool Trace(const Eigen::Vector3f& origin, const Eigen::Vector3f& direction) const;
+    bool Trace(const Position& origin, const Direction& direction) const;
 
 private:
-    Eigen::Vector3f _position;
+    Position _center;
     float _radius;
 };

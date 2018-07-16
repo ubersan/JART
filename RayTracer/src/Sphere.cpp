@@ -1,20 +1,20 @@
 #include "Sphere.h"
 
 Sphere::Sphere()
-    : Sphere(Eigen::Vector3f{0.f, 0.f, 0.f}, 1.f)
+    : Sphere(Position{0.f, 0.f, 0.f}, 1.f)
 {
 }
 
-Sphere::Sphere(const Eigen::Vector3f& position, float radius)
-    : _position(position), _radius(radius)
+Sphere::Sphere(const Position& center, float radius)
+    : _center(center), _radius(radius)
 {
 }
 
-bool Sphere::Trace(const Eigen::Vector3f& origin, const Eigen::Vector3f& direction) const
+bool Sphere::Trace(const Position& origin, const Direction& direction) const
 {    
-    auto L = _position - origin;
-    auto tca = L.dot(direction);
-    auto d2 = L.dot(L) - tca*tca;
+    auto L = _center - origin;
+    auto tca = L.Dot(direction);
+    auto d2 = L.Dot(L) - tca*tca;
     if (d2 > _radius*_radius)
     {
         return false;

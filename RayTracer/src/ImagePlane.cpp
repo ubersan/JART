@@ -2,13 +2,13 @@
 #include <iostream>
 using namespace std;
 
-ImagePlane::ImagePlane(int columns, int rows, const Eigen::Vector3f& position)
+ImagePlane::ImagePlane(int columns, int rows, const Position& position)
     : _columns(columns), _rows(rows), _position(position), _pixels(vector<Pixel>(columns*rows, Pixel::Red()))
 {
 }
 
 ImagePlane::ImagePlane(int columns, int rows, const std::vector<unsigned char> imageData)
-    : ImagePlane(columns, rows, Eigen::Vector3f::Zero())
+    : ImagePlane(columns, rows, Position{0.f, 0.f, 0.f})
 {
     for (auto i = 0; i < imageData.size(); i += 4)
     {

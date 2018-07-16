@@ -1,11 +1,11 @@
 #include "Camera.h"
 
-Camera::Camera()
-    : _position(Eigen::Vector3f{0.f, 0.f, 10.f}), _lookAt(Eigen::Vector3f{0.f, 0.f, -1.f}), _up(Eigen::Vector3f{0.f, 1.f, 0.f})
+Camera::Camera(const Position& position, const Direction& lookAt, const Direction& up)
+    : _position(position), _lookAt(lookAt), _up(up)
 {
 }
 
-const Eigen::Vector3f& Camera::GetPosition() const
+Position Camera::GetPosition() const
 {
     return _position;
 }

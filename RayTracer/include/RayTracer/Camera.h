@@ -2,15 +2,18 @@
 
 #include <Eigen/Core>
 
+#include "Direction.h"
+#include "Position.h"
+
 class Camera
 {
 public:
-    Camera();
+    Camera(const Position& position, const Direction& lookAt, const Direction& up);
     
-    const Eigen::Vector3f& GetPosition() const;
+    Position GetPosition() const;
 
 private:
-    Eigen::Vector3f _position;
-    Eigen::Vector3f _lookAt;
-    Eigen::Vector3f _up;
+    Position _position;
+    Direction _lookAt;
+    Direction _up;
 };

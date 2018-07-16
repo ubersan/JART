@@ -6,6 +6,8 @@
 #include "ITraceable.h"
 #include "ImagePlane.h"
 #include "Pixel.h"
+#include "Position.h"
+#include "Direction.h"
 
 class Scene
 {
@@ -13,7 +15,7 @@ public:
     Scene(const Camera& camera, const std::vector<ITraceable*>& sceneObjects);
 
     const ImagePlane& Render();
-    Pixel Trace(const Eigen::Vector3f& origin, const Eigen::Vector3f& direction) const;
+    Pixel Trace(const Position& origin, const Direction& direction) const;
 private:
 
     Camera _camera;

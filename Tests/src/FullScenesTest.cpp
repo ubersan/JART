@@ -9,7 +9,7 @@ void images_are_equal(const ImagePlane& expected, const ImagePlane& actual);
 
 TEST(Single_red_Sphere, Full_Scene)
 {
-    auto camera = Camera();
+    auto camera = Camera{Position{0.f, 0.f, 10.f}, Direction{0.f, 0.f, -1.f}, Direction{0.f, 1.f, 0.f}};
 
     auto s = new Sphere();
     auto scene = Scene(camera, {s});
