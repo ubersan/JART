@@ -7,7 +7,6 @@
 class Sphere : public ITraceable
 {
 public:
-    Sphere();
     Sphere(const Position& center, float radius);
 
     bool Trace(const Position& origin, const Direction& direction) const;

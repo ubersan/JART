@@ -1,10 +1,5 @@
 #include "Sphere.h"
 
-Sphere::Sphere()
-    : Sphere(Position{0.f, 0.f, 0.f}, 1.f)
-{
-}
-
 Sphere::Sphere(const Position& center, float radius)
     : _center(center), _radius(radius)
 {
