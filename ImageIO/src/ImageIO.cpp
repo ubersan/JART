@@ -31,9 +31,9 @@ ImagePlane ImageIO::Import(const std::string& filename)
 {
     vector<unsigned char> imageData;
     unsigned int columns, rows;
-    cout << "hey" << endl;
+
     auto error = lodepng::decode(imageData, columns, rows, filename);
-    cout << "oho" << endl;
+    
     if (error != 0)
     {
         cerr << "Image import failed with error number " << error << endl;

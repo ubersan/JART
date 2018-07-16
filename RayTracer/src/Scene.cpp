@@ -44,10 +44,9 @@ Pixel Scene::Trace(const Eigen::Vector3f& origin, const Eigen::Vector3f& directi
 
     for (auto const& sceneObject : _sceneObjects)
     {
-        auto hit = sceneObject->Trace(origin, direction);
-        pixel = hit
+        pixel = sceneObject->Trace(origin, direction)
             ? Pixel::Red()
-            : Pixel::Black();
+            : Pixel::Black();            
     }
 
     return pixel;
