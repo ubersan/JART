@@ -8,7 +8,7 @@ class Sphere : public IIntersectable
 public:
     Sphere(const Eigen::Vector3f& center, float radius);
 
-    std::tuple<bool, float> Intersect(const Eigen::Vector3f &orig, const Eigen::Vector3f &dir) const;
+    std::tuple<bool, float> Intersect(const Eigen::Vector3f& origin, const Eigen::Vector3f& direction) const;
     
 private:
     float _radius;
