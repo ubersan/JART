@@ -1,17 +1,17 @@
-#pragma once
+#include "IIntersectable.h"
 
-#include "Position.h"
-#include "Pixel.h"
-#include "ITraceable.h"
+#include <tuple>
+#include <Eigen/Core>
 
-class Sphere : public ITraceable
+class Sphere : public IIntersectable
 {
 public:
-    Sphere(const Position& center, float radius);
+    Sphere(const Eigen::Vector3f& center, float radius);
 
-    bool Trace(const Position& origin, const Direction& direction) const;
-
+    std::tuple<bool, float> Intersect(const Eigen::Vector3f &orig, const Eigen::Vector3f &dir) const;
+    
 private:
-    Position _center;
     float _radius;
+    float _radius2;
+    Eigen::Vector3f _center;
 };

@@ -2,25 +2,30 @@
 
 #include <vector>
 #include <memory>
+#include <vector>
 
-#include "Camera.h"
-#include "ITraceable.h"
-#include "ImagePlane.h"
-#include "Pixel.h"
-#include "Position.h"
-#include "Direction.h"
+#include "IIntersectable.h"
+
+#include <tuple>
+#include <Eigen/Core>
 
 class Scene
 {
 public:
-    Scene(const Camera& camera);
+    Scene();
+    
+    void Render();
+    void AddSphere(const Eigen::Vector3f& center, float radius);
 
-    void AddSphere(const Position& center, float radius);
-
-    ImagePlane Render();
-    Pixel Trace(const Position& origin, const Direction& direction) const;
 private:
+    std::tuple<bool, float, IIntersectable*> Trace(const Eigen::Vector3f& origin, const Eigen::Vector3f& direction, const std::vector<std::unique_ptr<IIntersectable>>& sceneObjects);
+    Eigen::Vector3f CastRay(const Eigen::Vector3f& origin, const Eigen::Vector3f& direction, const std::vector<std::unique_ptr<IIntersectable>>& sceneObjects);
+    void exportToFile(const std::vector<Eigen::Vector3f>& pixels);
+    
+    int _width;
+    int _height;
+    float _fov;
+    Eigen::Matrix4f _cameraToWorld;
 
-    Camera _camera;
-    std::vector<std::unique_ptr<ITraceable>> _sceneObjects;
+    std::vector<std::unique_ptr<IIntersectable>> _sceneObjects;
 };

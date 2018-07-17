@@ -1,37 +1,30 @@
 #include "Sphere.h"
+#include <limits>
 
-Sphere::Sphere(const Position& center, float radius)
-    : _center(center), _radius(radius)
+Sphere::Sphere(const Eigen::Vector3f& center, float radius)
+    : _radius(radius), _radius2(radius*radius), _center(center)
 {
 }
 
-bool Sphere::Trace(const Position& origin, const Direction& direction) const
-{    
-    auto L = _center - origin;
-    auto tca = L.Dot(direction);
-    auto d2 = L.Dot(L) - tca*tca;
-    if (d2 > _radius*_radius)
-    {
-        return false;
-    }
+std::tuple<bool, float> Sphere::Intersect(const Eigen::Vector3f &orig, const Eigen::Vector3f &dir) const
+{
+    const float kInfinity = std::numeric_limits<float>::max();
+    float t0, t1; // solutions for t if the ray intersects
+    float t = kInfinity;
+    // geometric solution
+    auto L = _center - orig;
+    float tca = L.dot(dir);
+    if (tca < 0) return std::make_tuple(false, t);
+    float d2 = L.dot(L) - tca * tca;
+    if (d2 > _radius2) return std::make_tuple(false, t);
+    float thc = sqrt(_radius2 - d2);
+    t0 = tca - thc;
+    t1 = tca + thc;
 
-    auto thc = sqrtf(_radius*_radius - d2);
-    auto t0 = tca - thc;
-    auto t1 = tca + thc;
-
-    if (t0 > t1)
-    {
-        std::swap(t0, t1);
+    if (t0 < 0) {
+        t0 = t1; // if t0 is negative, let's use t1 instead
+        if (t0 < 0) return std::make_tuple(false, t); // both t0 and t1 are negative
     }
-
-    if (t0 < t1)
-    {
-        t0 = t1;
-        if (t0 < 0)
-        {
-            return false;
-        }
-    }
-    
-    return true;
+    t = t0;
+    return std::make_tuple(true, t);
 }

@@ -8,5 +8,5 @@ include_directories(${PROJECT_ROOT_DIR}/ImageIO/include)
 file(GLOB SOURCE_FILES src/*.cpp)
 
 add_executable(renderer_test ${SOURCE_FILES})
-target_link_libraries(renderer_test gtest_main imageio raytracer)
+target_link_libraries(renderer_test gtest_main raytracer)
 add_test(NAME test_runner COMMAND test)
