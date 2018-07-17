@@ -11,8 +11,8 @@ float clampToUnitInterval(float value)
     return max(0.f, min(1.f, value));
 }
 
-Scene::Scene()
-    : _width(640), _height(480), _fov(30)
+Scene::Scene(const string& resultDirectory /* = "." */)
+    : _width(640), _height(480), _fov(30), _resultDirectory(resultDirectory)
 {
     _cameraToWorld << 1, 0, 0, 0,
                     0, 1, 0, 0,
@@ -60,7 +60,7 @@ Vector3f Scene::CastRay(const Vector3f& origin, const Vector3f& direction, const
 
 void Scene::exportToFile(const vector<Vector3f>& pixels)
 {
-    ofstream ofs{"./out.ppm", ios::out | ios::binary};
+    ofstream ofs{_resultDirectory + "/out.ppm", ios::out | ios::binary};
     ofs << "P6" << endl
         << _width << " " << _height << endl
         << "255" << endl;

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5.0)
+cmake_minimum_required(VERSION 3.12.0)
 project(tests)
 
 include_directories(${gtest_SOURCE_DIR}/include)
@@ -8,5 +8,5 @@ include_directories(${PROJECT_ROOT_DIR}/ImageIO/include)
 file(GLOB SOURCE_FILES src/*.cpp)
 
 add_executable(renderer_test ${SOURCE_FILES})
-target_link_libraries(renderer_test gtest_main raytracer)
+target_link_libraries(renderer_test gtest_main raytracer "-lstdc++fs")
 add_test(NAME test_runner COMMAND test)

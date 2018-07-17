@@ -29,10 +29,12 @@ tuple<bool, float> Sphere::Intersect(const Vector3f& origin, const Vector3f& dir
     auto t1 = tca + thc;
     if (t0 < 0)
     {
-        t0 = t1; // if t0 is negative, let's use t1 instead
+        // if t0 is negative, let's use t1 instead
+        t0 = t1;
         if (t0 < 0)
         {
-            return make_tuple(false, 0.f); // both t0 and t1 are negative
+            // both t0 and t1 are negative
+            return make_tuple(false, 0.f);
         }
     }
     

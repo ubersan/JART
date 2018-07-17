@@ -3,6 +3,7 @@
 #include <vector>
 #include <memory>
 #include <vector>
+#include <string>
 
 #include "IIntersectable.h"
 
@@ -12,7 +13,7 @@
 class Scene
 {
 public:
-    Scene();
+    Scene(const std::string& resultDirectory = ".");
     
     void Render();
     void AddSphere(const Eigen::Vector3f& center, float radius);
@@ -28,4 +29,6 @@ private:
     Eigen::Matrix4f _cameraToWorld;
 
     std::vector<std::unique_ptr<IIntersectable>> _sceneObjects;
+
+    std::string _resultDirectory;
 };
