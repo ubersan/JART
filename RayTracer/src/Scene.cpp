@@ -55,13 +55,21 @@ Vector3f Scene::CastRay(const Vector3f& origin, const Vector3f& direction, const
 {
     Vector3f hitColor = Vector3f::Zero();
 
+    // when no lights are present in the scene, we just do flat shading for debuggin.
+    auto shadingIsEnabled = _lights.size() > 0;
+
     if (auto [success, t, hitObject] = Trace(origin, direction, sceneObjects); success)
     {
-        auto hitPoint = origin + t*direction;
-        auto normal = hitObject->GetNormalAt(hitPoint);
-        auto toLight = Vector3f{0.f, 1.f, 0.f}.normalized();
+        hitColor = Vector3f(1.f, 1.f, 1.f);
 
-        hitColor = Vector3f(1.f, 1.f, 1.f) * max(0.f, normal.dot(toLight));
+        if (shadingIsEnabled)
+        {
+            auto hitPoint = origin + t*direction;
+            auto normal = hitObject->GetNormalAt(hitPoint);
+            auto toLight = Vector3f{0.f, 1.f, 0.f}.normalized();
+
+            hitColor *= max(0.f, normal.dot(toLight));
+        }
     }
 
     return hitColor;
