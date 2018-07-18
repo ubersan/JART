@@ -84,14 +84,16 @@ Vector3f Scene::CastRay(const Vector3f& origin, const Vector3f& direction, const
             auto hitPoint = origin + t*direction;
             auto normal = hitObject->GetNormalAt(hitPoint);
 
-            const auto& light = _lights[0];
-            auto toLight = light->GetToLightDirection(hitPoint);
+            for (const auto& light : _lights)
+            {
+                auto toLight = light->GetToLightDirection(hitPoint);
 
-            // shadow ray
-            auto [isInShadow, tShadow, shadowHitObject] = Trace(hitPoint + normal*1e-4, toLight, sceneObjects, light->GetMaximalHitDistance(hitPoint));
-            auto isVisible = isInShadow ? 0.f : 1.f;
+                // shadow ray
+                auto [isInShadow, tShadow, shadowHitObject] = Trace(hitPoint + normal*1e-4, toLight, sceneObjects, light->GetMaximalHitDistance(hitPoint));
+                auto isVisible = isInShadow ? 0.f : 1.f;
 
-            hitColor.array() = isVisible * (light->GetContributionAccordingToDistance(hitPoint) * max(0.f, normal.dot(toLight))).array();
+                hitColor.array() += isVisible * (light->GetContributionAccordingToDistance(hitPoint) * max(0.f, normal.dot(toLight))).array();
+            }
         }
     }
 
