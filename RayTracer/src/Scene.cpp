@@ -72,9 +72,11 @@ Vector3f Scene::CastRay(const Vector3f& origin, const Vector3f& direction, const
         {
             auto hitPoint = origin + t*direction;
             auto normal = hitObject->GetNormalAt(hitPoint);
-            auto toLight = Vector3f{0.f, 1.f, 0.f}.normalized();
 
-            hitColor *= max(0.f, normal.dot(toLight));
+            const auto& directionalLight = _lights[0];
+            auto toLight = directionalLight->GetToLightDirection(hitPoint);
+
+            hitColor.array() *= (directionalLight->intensity * directionalLight->color * max(0.f, normal.dot(toLight))).array();
         }
     }
 
@@ -108,7 +110,7 @@ void Scene::Render()
             auto x = (2 * (col + 0.5f) / (float)_width - 1) * scale;
             auto y = (1 - 2 * (row + 0.5f) / (float)_height) * scale / aspectRatio;
             
-            auto direction = (cameraToWorldBasis * Vector3f(x, y, -1)).normalized();       
+            auto direction = (cameraToWorldBasis * Vector3f(x, y, -1)).normalized();     
             *(pixelIter++) = CastRay(origin, direction, _sceneObjects);
         }
     }
