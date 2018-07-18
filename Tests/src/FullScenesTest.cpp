@@ -25,6 +25,7 @@ void Given_Centered_Red_Sphere_With_Directional_Light();
 void Given_Centered_Sphere_With_Shadow_On_Plane();
 void Given_Two_Spheres_Self_Shadowing();
 void Given_PointLight_On_Sphere_And_Plane();
+void Given_PointLight_Two_Spheres_Self_Shadowing();
 
 void When_Render();
 void Then_ImagesMatch();
@@ -65,6 +66,24 @@ TEST(Full_Scene, PointLight_On_Sphere_And_Plane)
     Given_PointLight_On_Sphere_And_Plane();
     When_Render();
     Then_ImagesMatch();
+}
+
+TEST(Full_Scene, PointLight_Two_Spheres_Self_Shadowing)
+{
+    Given_PointLight_Two_Spheres_Self_Shadowing();
+    When_Render();
+    Then_ImagesMatch();
+}
+
+void Given_PointLight_Two_Spheres_Self_Shadowing()
+{
+    auto resultDirectory = Setup_TestEnvironment();
+    
+    scene = make_unique<Scene>(640, 480, 30, resultDirectory);
+    scene->AddSphere(Vector3f{0.f, 0.f, -10.f}, 1.f);
+    scene->AddSphere(Vector3f{-1.f, 1.f, -9.25f}, 0.25f);
+    scene->AddPlane(Vector3f{0.f, -1.5f, 0.f}, Vector3f{0.f, 1.f, 0.f});
+    scene->AddPointLight(Vector3f{-3.f, 5.f, -10.f}, 250.f, Vector3f{1.f, 1.f, 1.f});
 }
 
 void Given_PointLight_On_Sphere_And_Plane()
@@ -145,7 +164,7 @@ string Setup_TestEnvironment()
 vector<char> ParseFile(const string& filename)
 {
     EXPECT_TRUE(experimental::filesystem::v1::exists(filename));
-    
+
     ifstream inputExpected{filename, ios::in | ios::binary};
     return vector<char>((istreambuf_iterator<char>(inputExpected)), istreambuf_iterator<char>());
 }
