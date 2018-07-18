@@ -88,9 +88,9 @@ Vector3f Scene::CastRay(const Vector3f& origin, const Vector3f& direction, const
 
             // shadow ray
             auto [isInShadow, tShadow, shadowHitObject] = Trace(hitPoint + normal*1e-4, toLight, sceneObjects);
-            auto visibility = isInShadow ? 0.f : 1.f;
+            auto isVisible = isInShadow ? 0.f : 1.f;
 
-            hitColor.array() = visibility * (directionalLight->intensity * directionalLight->color * max(0.f, normal.dot(toLight))).array();
+            hitColor.array() = isVisible * (directionalLight->GetContributionAccordingToDistance(hitPoint) * max(0.f, normal.dot(toLight))).array();
         }
     }
 

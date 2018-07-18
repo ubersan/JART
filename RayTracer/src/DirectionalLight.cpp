@@ -11,3 +11,9 @@ Vector3f DirectionalLight::GetToLightDirection(const Vector3f& hitPoint) const
 {
     return -_direction;
 }
+
+Vector3f DirectionalLight::GetContributionAccordingToDistance(const Vector3f& hitPoint) const
+{
+    // The directional light is placed at infinity. Thus there is no falloff and the contribution is constant.
+    return intensity * color;
+}

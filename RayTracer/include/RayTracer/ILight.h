@@ -19,4 +19,5 @@ public:
 
     // This returns the direction from the hitpoint TO the light.
     virtual Eigen::Vector3f GetToLightDirection(const Eigen::Vector3f& hitPoint) const = 0;
+    virtual Eigen::Vector3f GetContributionAccordingToDistance(const Eigen::Vector3f& hitPoint) const = 0;
 };
