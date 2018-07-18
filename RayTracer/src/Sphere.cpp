@@ -5,7 +5,7 @@ using namespace std;
 using namespace Eigen;
 
 Sphere::Sphere(const Vector3f& center, float radius)
-    : _radius(radius), _radius2(radius*radius), _center(center)
+    : _radius2(radius*radius), _center(center)
 {
 }
 

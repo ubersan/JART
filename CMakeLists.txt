@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12.0)
 
-set(CMAKE_C_COMPILER /usr/bin/gcc)
-set(CMAKE_CXX_COMPILER /usr/bin/g++)
+set(CMAKE_C_COMPILER /usr/bin/clang-6.0)
+set(CMAKE_CXX_COMPILER /usr/bin/clang++-6.0)
 project(raytracer_root)
 
 set(CMAKE_CXX_STANDARD 17)

@@ -12,7 +12,6 @@ public:
     Eigen::Vector3f GetNormalAt(const Eigen::Vector3f& hitPoint) const;
 
 private:
-    float _radius;
     float _radius2;
     Eigen::Vector3f _center;
 };

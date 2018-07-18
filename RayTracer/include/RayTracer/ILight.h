@@ -11,7 +11,7 @@ public:
     {
     }
 
-    ~ILight() {}
+    virtual ~ILight() {}
 
     Eigen::Vector3f center;
 
