@@ -17,9 +17,12 @@ public:
     Scene(int width, int height, float fov, const std::string& resultDirectory = ".");
     
     void Render();
+
     void AddSphere(const Eigen::Vector3f& center, float radius);
     void AddDirectionalLight(const Eigen::Vector3f& direction, float intensity, const Eigen::Vector3f& color);
     void AddPointLight(const Eigen::Vector3f& center, float intensity, const Eigen::Vector3f& color);
+    void AddPlane(const Eigen::Vector3f& pointOnPlane, const Eigen::Vector3f& normal);
+    
     void SetCamera(const Eigen::Vector3f& right, const Eigen::Vector3f& up, const Eigen::Vector3f lookAt, const Eigen::Vector3f& position);
 
 private:

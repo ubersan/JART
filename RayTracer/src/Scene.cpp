@@ -1,5 +1,6 @@
 #include "Scene.h"
 #include "Sphere.h"
+#include "Plane.h"
 #include "PointLight.h"
 #include "DirectionalLight.h"
 
@@ -34,6 +35,11 @@ void Scene::AddPointLight(const Vector3f& center, float intensity, const Vector3
     _lights.push_back(make_unique<PointLight>(center, intensity, color));
 }
 
+void Scene::AddPlane(const Eigen::Vector3f& pointOnPlane, const Eigen::Vector3f& normal)
+{
+    _sceneObjects.push_back(make_unique<Plane>(pointOnPlane, normal));
+}
+
 void Scene::SetCamera(const Vector3f& right, const Vector3f& up, const Vector3f lookAt, const Vector3f& position)
 {
     _cameraToWorld << right.x(), right.y(), right.z(), 0,
@@ -66,7 +72,7 @@ Vector3f Scene::CastRay(const Vector3f& origin, const Vector3f& direction, const
 
     if (auto [success, t, hitObject] = Trace(origin, direction, sceneObjects); success)
     {
-        hitColor = Vector3f(1.f, 1.f, 1.f);
+        hitColor = Vector3f(0.f, 0.f, 0.f);
 
         if (shadingIsEnabled)
         {
@@ -76,7 +82,11 @@ Vector3f Scene::CastRay(const Vector3f& origin, const Vector3f& direction, const
             const auto& directionalLight = _lights[0];
             auto toLight = directionalLight->GetToLightDirection(hitPoint);
 
-            hitColor.array() *= (directionalLight->intensity * directionalLight->color * max(0.f, normal.dot(toLight))).array();
+            // shadow ray
+            auto [isInShadow, tShadow, shadowHitObject] = Trace(hitPoint + normal*1e-4, toLight, sceneObjects);
+            auto visibility = isInShadow ? 0.f : 1.f;
+
+            hitColor.array() = visibility * (directionalLight->intensity * directionalLight->color * max(0.f, normal.dot(toLight))).array();
         }
     }
 
