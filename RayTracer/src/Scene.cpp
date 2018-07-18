@@ -1,5 +1,7 @@
 #include "Scene.h"
 #include "Sphere.h"
+#include "PointLight.h"
+
 #include <fstream>
 #include <iostream>
 
@@ -19,6 +21,11 @@ Scene::Scene(int width, int height, float fov, const string& resultDirectory /* 
 void Scene::AddSphere(const Vector3f& center, float radius)
 {
     _sceneObjects.push_back(make_unique<Sphere>(center, radius));
+}
+
+void Scene::AddLight(const Vector3f& position)
+{
+    _lights.push_back(make_unique<PointLight>(position));
 }
 
 void Scene::SetCamera(const Vector3f& right, const Vector3f& up, const Vector3f lookAt, const Vector3f& position)
@@ -50,13 +57,11 @@ Vector3f Scene::CastRay(const Vector3f& origin, const Vector3f& direction, const
 
     if (auto [success, t, hitObject] = Trace(origin, direction, sceneObjects); success)
     {
-        // Dummy calculation to remove warnings.
-        if (hitObject != nullptr)
-        {
-            hitColor *= t;
-        }
+        auto hitPoint = origin + t*direction;
+        auto normal = hitObject->GetNormalAt(hitPoint);
+        auto toLight = Vector3f{0.f, 1.f, 0.f}.normalized();
 
-        hitColor = Vector3f(1.f, 1.f, 1.f);
+        hitColor = Vector3f(1.f, 1.f, 1.f) * max(0.f, normal.dot(toLight));
     }
 
     return hitColor;

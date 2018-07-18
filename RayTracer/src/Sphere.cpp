@@ -40,3 +40,8 @@ tuple<bool, float> Sphere::Intersect(const Vector3f& origin, const Vector3f& dir
     
     return make_tuple(true, t0);
 }
+
+Eigen::Vector3f Sphere::GetNormalAt(const Eigen::Vector3f& hitPoint) const
+{
+    return (hitPoint - _center).normalized();
+}

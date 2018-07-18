@@ -1,18 +1,17 @@
+#pragma once
+
 #include "IIntersectable.h"
 
-#include <tuple>
 #include <Eigen/Core>
+#include <tuple>
 
-class Sphere : public IIntersectable
+class PointLight : public IIntersectable
 {
 public:
-    Sphere(const Eigen::Vector3f& center, float radius);
+    PointLight(const Eigen::Vector3f& position);
 
     std::tuple<bool, float> Intersect(const Eigen::Vector3f& origin, const Eigen::Vector3f& direction) const;
     Eigen::Vector3f GetNormalAt(const Eigen::Vector3f& hitPoint) const;
-
 private:
-    float _radius;
-    float _radius2;
-    Eigen::Vector3f _center;
+    Eigen::Vector3f _position;
 };

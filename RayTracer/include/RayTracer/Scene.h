@@ -17,6 +17,7 @@ public:
     
     void Render();
     void AddSphere(const Eigen::Vector3f& center, float radius);
+    void AddLight(const Eigen::Vector3f& position);
     void SetCamera(const Eigen::Vector3f& right, const Eigen::Vector3f& up, const Eigen::Vector3f lookAt, const Eigen::Vector3f& position);
 
 private:
@@ -29,7 +30,8 @@ private:
     float _fov;
     Eigen::Matrix4f _cameraToWorld;
 
-    std::vector<std::unique_ptr<IIntersectable>> _sceneObjects;
-
     std::string _resultDirectory;
+
+    std::vector<std::unique_ptr<IIntersectable>> _sceneObjects;
+    std::vector<std::unique_ptr<IIntersectable>> _lights;
 };
