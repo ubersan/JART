@@ -6,6 +6,7 @@
 #include <string>
 
 #include "IIntersectable.h"
+#include "ILight.h"
 
 #include <tuple>
 #include <Eigen/Core>
@@ -17,7 +18,8 @@ public:
     
     void Render();
     void AddSphere(const Eigen::Vector3f& center, float radius);
-    void AddLight(const Eigen::Vector3f& position);
+    void AddDirectionalLight(const Eigen::Vector3f& direction, float intensity, const Eigen::Vector3f& color);
+    void AddPointLight(const Eigen::Vector3f& center, float intensity, const Eigen::Vector3f& color);
     void SetCamera(const Eigen::Vector3f& right, const Eigen::Vector3f& up, const Eigen::Vector3f lookAt, const Eigen::Vector3f& position);
 
 private:
@@ -33,5 +35,5 @@ private:
     std::string _resultDirectory;
 
     std::vector<std::unique_ptr<IIntersectable>> _sceneObjects;
-    std::vector<std::unique_ptr<IIntersectable>> _lights;
+    std::vector<std::unique_ptr<ILight>> _lights;
 };

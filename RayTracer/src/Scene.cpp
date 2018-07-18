@@ -1,6 +1,7 @@
 #include "Scene.h"
 #include "Sphere.h"
 #include "PointLight.h"
+#include "DirectionalLight.h"
 
 #include <fstream>
 #include <iostream>
@@ -23,9 +24,14 @@ void Scene::AddSphere(const Vector3f& center, float radius)
     _sceneObjects.push_back(make_unique<Sphere>(center, radius));
 }
 
-void Scene::AddLight(const Vector3f& position)
+void Scene::AddDirectionalLight(const Vector3f& direction, float intensity, const Vector3f& color)
 {
-    _lights.push_back(make_unique<PointLight>(position));
+    _lights.push_back(make_unique<DirectionalLight>(direction, intensity, color));
+}
+
+void Scene::AddPointLight(const Vector3f& center, float intensity, const Vector3f& color)
+{
+    _lights.push_back(make_unique<PointLight>(center, intensity, color));
 }
 
 void Scene::SetCamera(const Vector3f& right, const Vector3f& up, const Vector3f lookAt, const Vector3f& position)

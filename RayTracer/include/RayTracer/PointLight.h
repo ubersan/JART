@@ -1,17 +1,14 @@
 #pragma once
 
-#include "IIntersectable.h"
+#include "ILight.h"
 
 #include <Eigen/Core>
 #include <tuple>
 
-class PointLight : public IIntersectable
+class PointLight : public ILight
 {
 public:
-    PointLight(const Eigen::Vector3f& position);
+    PointLight(const Eigen::Vector3f& center, float intensity, const Eigen::Vector3f& color);
 
-    std::tuple<bool, float> Intersect(const Eigen::Vector3f& origin, const Eigen::Vector3f& direction) const;
-    Eigen::Vector3f GetNormalAt(const Eigen::Vector3f& hitPoint) const;
-private:
-    Eigen::Vector3f _position;
+    Eigen::Vector3f GetToLightDirection(const Eigen::Vector3f& hitPoint) const;
 };

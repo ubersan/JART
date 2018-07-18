@@ -3,19 +3,12 @@
 using namespace std;
 using namespace Eigen;
 
-PointLight::PointLight(const Vector3f& position)
-    : _position(position)
+PointLight::PointLight(const Vector3f& center, float intensity, const Vector3f& color)
+    : ILight(center, intensity, color)
 {
 }
 
-tuple<bool, float> PointLight::Intersect(const Eigen::Vector3f& origin, const Eigen::Vector3f& direction) const
+Eigen::Vector3f PointLight::GetToLightDirection(const Eigen::Vector3f& hitPoint) const
 {
-    // a point light is never intersected
-    return make_tuple(false, 0.f);
-}
-
-Eigen::Vector3f PointLight::GetNormalAt(const Eigen::Vector3f& hitPoint) const
-{
-    // we never will/can intersect this light
-    return Vector3f::Zero();
+    return (center - hitPoint).normalized();
 }
