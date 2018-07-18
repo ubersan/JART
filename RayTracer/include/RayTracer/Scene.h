@@ -13,7 +13,7 @@
 class Scene
 {
 public:
-    Scene(const std::string& resultDirectory = ".");
+    Scene(int width, int height, float fov, const std::string& resultDirectory = ".");
     
     void Render();
     void AddSphere(const Eigen::Vector3f& center, float radius);

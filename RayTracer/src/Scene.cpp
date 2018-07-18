@@ -11,8 +11,8 @@ float clampToUnitInterval(float value)
     return max(0.f, min(1.f, value));
 }
 
-Scene::Scene(const string& resultDirectory /* = "." */)
-    : _width(640), _height(480), _fov(30), _cameraToWorld(Matrix4f::Identity()), _resultDirectory(resultDirectory)
+Scene::Scene(int width, int height, float fov, const string& resultDirectory /* = "." */)
+    : _width(width), _height(height), _fov(fov), _cameraToWorld(Matrix4f::Identity()), _resultDirectory(resultDirectory)
 {
 }
 
