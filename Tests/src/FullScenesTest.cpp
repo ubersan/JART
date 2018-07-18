@@ -21,6 +21,7 @@ vector<char> expectedValues;
 vector<char> actualValues;
 
 void Given_Scene_Small_Moved_White_Sphere();
+void Given_Centered_Red_Sphere_With_Directional_Light();
 
 void When_Render();
 void Then_ImagesMatch();
@@ -35,6 +36,13 @@ TEST(Full_Scene, Small_Moved_White_Sphere)
     Then_ImagesMatch();
 }
 
+TEST(Full_Scene, Centered_Red_Sphere_With_Directional_Light)
+{
+    Given_Centered_Red_Sphere_With_Directional_Light();
+    When_Render();
+    Then_ImagesMatch();
+}
+
 void Given_Scene_Small_Moved_White_Sphere()
 {
     auto resultDirectory = Setup_TestEnvironment();
@@ -42,6 +50,15 @@ void Given_Scene_Small_Moved_White_Sphere()
     scene = make_unique<Scene>(640, 480, 30, resultDirectory);
     scene->SetCamera(Vector3f{1.f, 0.f, 0.f}, Vector3f{0.f, 1.f, 0.f}, Vector3f{0.f, 0.f, 1.f}, Vector3f{0.f, 0.f, 10.f});
     scene->AddSphere(Vector3f(2.f, 2.f, -10.f), 1.f);
+}
+
+void Given_Centered_Red_Sphere_With_Directional_Light()
+{
+    auto resultDirectory = Setup_TestEnvironment();
+
+    scene = make_unique<Scene>(640, 480, 30, resultDirectory);
+    scene->AddSphere(Vector3f{0.f, 0.f, -10.f}, 1.f);
+    scene->AddDirectionalLight(Vector3f{0.f, -1.f, 0.f}, 1.f, Vector3f{1.f, 0.f, 0.f});
 }
 
 void When_Render()
