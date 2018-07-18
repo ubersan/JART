@@ -12,17 +12,21 @@ float clampToUnitInterval(float value)
 }
 
 Scene::Scene(const string& resultDirectory /* = "." */)
-    : _width(640), _height(480), _fov(30), _resultDirectory(resultDirectory)
+    : _width(640), _height(480), _fov(30), _cameraToWorld(Matrix4f::Identity()), _resultDirectory(resultDirectory)
 {
-    _cameraToWorld << 1, 0, 0, 0,
-                    0, 1, 0, 0,
-                    0, 0, 1, 0,
-                    0, 0, 10, 1;
 }
 
 void Scene::AddSphere(const Vector3f& center, float radius)
 {
     _sceneObjects.push_back(make_unique<Sphere>(center, radius));
+}
+
+void Scene::SetCamera(const Vector3f& right, const Vector3f& up, const Vector3f lookAt, const Vector3f& position)
+{
+    _cameraToWorld << right.x(), right.y(), right.z(), 0,
+                    up.x(), up.y(), up.z(), 0,
+                    lookAt.x(), lookAt.y(), lookAt.z(), 0,
+                    position.x(), position.y(), position.z(), 1;
 }
 
 tuple<bool, float, IIntersectable*> Scene::Trace(const Vector3f& origin, const Vector3f& direction, const vector<unique_ptr<IIntersectable>>& sceneObjects)
@@ -31,7 +35,7 @@ tuple<bool, float, IIntersectable*> Scene::Trace(const Vector3f& origin, const V
     IIntersectable* hitObject = nullptr;
 
     for (const auto& sceneObject : sceneObjects) {
-        if (auto [success, t] = sceneObject->Intersect(origin, direction); success && t < tNear) {
+        if (const auto [success, t] = sceneObject->Intersect(origin, direction); success && t < tNear) {
             hitObject = sceneObject.get();
             tNear = t;
         }

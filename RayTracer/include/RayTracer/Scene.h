@@ -17,6 +17,7 @@ public:
     
     void Render();
     void AddSphere(const Eigen::Vector3f& center, float radius);
+    void SetCamera(const Eigen::Vector3f& right, const Eigen::Vector3f& up, const Eigen::Vector3f lookAt, const Eigen::Vector3f& position);
 
 private:
     std::tuple<bool, float, IIntersectable*> Trace(const Eigen::Vector3f& origin, const Eigen::Vector3f& direction, const std::vector<std::unique_ptr<IIntersectable>>& sceneObjects);
