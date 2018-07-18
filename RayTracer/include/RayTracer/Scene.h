@@ -19,10 +19,12 @@ public:
     void Render();
 
     void AddSphere(const Eigen::Vector3f& center, float radius);
+    void AddPlane(const Eigen::Vector3f& pointOnPlane, const Eigen::Vector3f& normal);
+
     void AddDirectionalLight(const Eigen::Vector3f& direction, float intensity, const Eigen::Vector3f& color);
     void AddPointLight(const Eigen::Vector3f& center, float intensity, const Eigen::Vector3f& color);
-    void AddPlane(const Eigen::Vector3f& pointOnPlane, const Eigen::Vector3f& normal);
     
+    void SetBackground(const Eigen::Vector3f& background);
     void SetCamera(const Eigen::Vector3f& right, const Eigen::Vector3f lookAt, const Eigen::Vector3f& position);
 
 private:
@@ -34,6 +36,7 @@ private:
     int _height;
     float _fov;
     Eigen::Matrix4f _cameraToWorld;
+    Eigen::Vector3f _background;
 
     std::string _resultDirectory;
 

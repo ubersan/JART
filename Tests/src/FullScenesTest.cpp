@@ -30,6 +30,7 @@ void Given_PointLight_InBetween_Two_Spheres();
 void Given_Two_DirectionalLights_On_Single_Sphere();
 void Given_Three_PointLights_Onto_Plane_In_Row();
 void Given_Three_PointLights_OnPlane_InTriangle_MixingTogether();
+void Given_Single_Sphere_And_Plane_With_Background_SkyBlue();
 
 void When_Render();
 void Then_ImagesMatch();
@@ -105,6 +106,24 @@ TEST(Full_Scene, Three_PointLights_OnPlane_InTriangle_MixingTogether)
     Given_Three_PointLights_OnPlane_InTriangle_MixingTogether();
     When_Render();
     Then_ImagesMatch();
+}
+
+TEST(Full_Scene, Single_Sphere_And_Plane_With_Background_SkyBlue)
+{
+    Given_Single_Sphere_And_Plane_With_Background_SkyBlue();
+    When_Render();
+    Then_ImagesMatch();
+}
+
+void Given_Single_Sphere_And_Plane_With_Background_SkyBlue()
+{
+    auto resultDirectory = Setup_TestEnvironment();
+    
+    scene = make_unique<Scene>(640, 480, 30, resultDirectory);
+    scene->AddPlane(Vector3f{0.f, -1.5f, 0.f}, Vector3f{0.f, 1.f, 0.f});
+    scene->AddSphere(Vector3f{0.f, 0.f, -10.f}, 1.f);
+    scene->AddDirectionalLight(Vector3f{0.f, -1.f, 0.f}, 1.f, Vector3f{1.f, 1.f, 1.f});
+    scene->SetBackground(Vector3f{0.36, 0.52f, 0.8f});
 }
 
 void Given_Three_PointLights_OnPlane_InTriangle_MixingTogether()

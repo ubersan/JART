@@ -46,6 +46,11 @@ void Scene::AddPlane(const Eigen::Vector3f& pointOnPlane, const Eigen::Vector3f&
     _sceneObjects.push_back(make_unique<Plane>(pointOnPlane, normal));
 }
 
+void Scene::SetBackground(const Eigen::Vector3f& background)
+{
+    _background = background;
+}
+
 void Scene::SetCamera(const Vector3f& right, const Vector3f lookAt, const Vector3f& position)
 {
     auto up = right.cross(lookAt);
@@ -74,7 +79,7 @@ tuple<bool, float, IIntersectable*> Scene::Trace(const Vector3f& origin, const V
 
 Vector3f Scene::CastRay(const Vector3f& origin, const Vector3f& direction, const vector<unique_ptr<IIntersectable>>& sceneObjects)
 {
-    Vector3f hitColor = Vector3f::Zero();
+    Vector3f hitColor = _background;
 
     // when no lights are present in the scene, we just do flat shading for debuggin.
     auto shadingIsEnabled = _lights.size() > 0;
