@@ -23,7 +23,7 @@ public:
     void AddPointLight(const Eigen::Vector3f& center, float intensity, const Eigen::Vector3f& color);
     void AddPlane(const Eigen::Vector3f& pointOnPlane, const Eigen::Vector3f& normal);
     
-    void SetCamera(const Eigen::Vector3f& right, const Eigen::Vector3f& up, const Eigen::Vector3f lookAt, const Eigen::Vector3f& position);
+    void SetCamera(const Eigen::Vector3f& right, const Eigen::Vector3f lookAt, const Eigen::Vector3f& position);
 
 private:
     std::tuple<bool, float, IIntersectable*> Trace(const Eigen::Vector3f& origin, const Eigen::Vector3f& direction, const std::vector<std::unique_ptr<IIntersectable>>& sceneObjects, float maxHitDistance = std::numeric_limits<float>::max());

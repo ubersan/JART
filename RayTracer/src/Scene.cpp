@@ -7,6 +7,8 @@
 #include <fstream>
 #include <iostream>
 
+#include <Eigen/Dense>
+
 using namespace std;
 using namespace Eigen;
 
@@ -16,8 +18,12 @@ float clampToUnitInterval(float value)
 }
 
 Scene::Scene(int width, int height, float fov, const string& resultDirectory /* = "." */)
-    : _width(width), _height(height), _fov(fov), _cameraToWorld(Matrix4f::Identity()), _resultDirectory(resultDirectory)
+    : _width(width), _height(height), _fov(fov), _resultDirectory(resultDirectory)
 {
+    _cameraToWorld = Matrix4f::Identity();
+
+    // By convention the camera looks along the negative z-axis.
+    _cameraToWorld(2, 2) = -1.f;
 }
 
 void Scene::AddSphere(const Vector3f& center, float radius)
@@ -40,8 +46,10 @@ void Scene::AddPlane(const Eigen::Vector3f& pointOnPlane, const Eigen::Vector3f&
     _sceneObjects.push_back(make_unique<Plane>(pointOnPlane, normal));
 }
 
-void Scene::SetCamera(const Vector3f& right, const Vector3f& up, const Vector3f lookAt, const Vector3f& position)
+void Scene::SetCamera(const Vector3f& right, const Vector3f lookAt, const Vector3f& position)
 {
+    auto up = right.cross(lookAt);
+
     _cameraToWorld << right.x(), right.y(), right.z(), 0,
                     up.x(), up.y(), up.z(), 0,
                     lookAt.x(), lookAt.y(), lookAt.z(), 0,
@@ -127,7 +135,7 @@ void Scene::Render()
             auto x = (2 * (col + 0.5f) / (float)_width - 1) * scale;
             auto y = (1 - 2 * (row + 0.5f) / (float)_height) * scale / aspectRatio;
             
-            auto direction = (cameraToWorldBasis * Vector3f(x, y, -1)).normalized();     
+            auto direction = (cameraToWorldBasis * Vector3f(x, y, 1)).normalized();     
             *(pixelIter++) = CastRay(origin, direction, _sceneObjects);
         }
     }

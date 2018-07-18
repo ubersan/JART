@@ -158,7 +158,7 @@ void Given_Scene_Small_Moved_White_Sphere()
     auto resultDirectory = Setup_TestEnvironment();
     
     scene = make_unique<Scene>(640, 480, 30, resultDirectory);
-    scene->SetCamera(Vector3f{1.f, 0.f, 0.f}, Vector3f{0.f, 1.f, 0.f}, Vector3f{0.f, 0.f, 1.f}, Vector3f{0.f, 0.f, 10.f});
+    scene->SetCamera(Vector3f{1.f, 0.f, 0.f}, Vector3f{0.f, 0.f, -1.f}, Vector3f{0.f, 0.f, 10.f});
     scene->AddSphere(Vector3f(2.f, 2.f, -10.f), 1.f);
 }
 
