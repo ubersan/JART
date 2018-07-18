@@ -26,6 +26,7 @@ void Given_Centered_Sphere_With_Shadow_On_Plane();
 void Given_Two_Spheres_Self_Shadowing();
 void Given_PointLight_On_Sphere_And_Plane();
 void Given_PointLight_Two_Spheres_Self_Shadowing();
+void Given_PointLight_InBetween_Two_Spheres();
 
 void When_Render();
 void Then_ImagesMatch();
@@ -71,6 +72,13 @@ TEST(Full_Scene, PointLight_On_Sphere_And_Plane)
 TEST(Full_Scene, PointLight_Two_Spheres_Self_Shadowing)
 {
     Given_PointLight_Two_Spheres_Self_Shadowing();
+    When_Render();
+    Then_ImagesMatch();
+}
+
+TEST(Full_Scene, PointLight_InBetween_Two_Spheres)
+{
+    Given_PointLight_InBetween_Two_Spheres();
     When_Render();
     Then_ImagesMatch();
 }
@@ -134,6 +142,17 @@ void Given_Centered_Sphere_With_Shadow_On_Plane()
     scene->AddSphere(Vector3f{0.f, 0.f, -10.f}, 1.f);
     scene->AddPlane(Vector3f{0.f, -1.5f, 0.f}, Vector3f{0.f, 1.f, 0.f});
     scene->AddDirectionalLight(Vector3f{-0.5f, -1.f, 0.f}.normalized(), 1.f, Vector3f{1.f, 1.f, 1.f});
+}
+
+void Given_PointLight_InBetween_Two_Spheres()
+{
+    auto resultDirectory = Setup_TestEnvironment();
+
+    scene = make_unique<Scene>(640, 480, 30, resultDirectory);
+    scene->AddSphere(Vector3f{-2.f, 0.f, -10.f}, 1.f);
+    scene->AddSphere(Vector3f{2.f, 0.f, -10.f}, 1.f);
+    scene->AddPlane(Vector3f{0.f, -1.5f, 0.f}, Vector3f{0.f, 1.f, 0.f});
+    scene->AddPointLight(Vector3f{0.f, 0.f, -10.f}, 10.f, Vector3f{1.f, 1.f, 1.f});
 }
 
 void When_Render()

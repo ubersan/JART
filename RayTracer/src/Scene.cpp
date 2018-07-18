@@ -48,9 +48,10 @@ void Scene::SetCamera(const Vector3f& right, const Vector3f& up, const Vector3f 
                     position.x(), position.y(), position.z(), 1;
 }
 
-tuple<bool, float, IIntersectable*> Scene::Trace(const Vector3f& origin, const Vector3f& direction, const vector<unique_ptr<IIntersectable>>& sceneObjects)
+tuple<bool, float, IIntersectable*> Scene::Trace(const Vector3f& origin, const Vector3f& direction, const vector<unique_ptr<IIntersectable>>& sceneObjects, float maxHitDistance /* = numeric_limits<float>::max() */)
 {
-    auto tNear = numeric_limits<float>::max();
+    // In case of a shadow ray trace with a point light, we want to ignore all intersections, larger than the distance from the hitPoint to the light. This can be set via this parameter.
+    auto tNear = maxHitDistance;
     IIntersectable* hitObject = nullptr;
 
     for (const auto& sceneObject : sceneObjects) {
@@ -83,14 +84,14 @@ Vector3f Scene::CastRay(const Vector3f& origin, const Vector3f& direction, const
             auto hitPoint = origin + t*direction;
             auto normal = hitObject->GetNormalAt(hitPoint);
 
-            const auto& directionalLight = _lights[0];
-            auto toLight = directionalLight->GetToLightDirection(hitPoint);
+            const auto& light = _lights[0];
+            auto toLight = light->GetToLightDirection(hitPoint);
 
             // shadow ray
-            auto [isInShadow, tShadow, shadowHitObject] = Trace(hitPoint + normal*1e-4, toLight, sceneObjects);
+            auto [isInShadow, tShadow, shadowHitObject] = Trace(hitPoint + normal*1e-4, toLight, sceneObjects, light->GetMaximalHitDistance(hitPoint));
             auto isVisible = isInShadow ? 0.f : 1.f;
 
-            hitColor.array() = isVisible * (directionalLight->GetContributionAccordingToDistance(hitPoint) * max(0.f, normal.dot(toLight))).array();
+            hitColor.array() = isVisible * (light->GetContributionAccordingToDistance(hitPoint) * max(0.f, normal.dot(toLight))).array();
         }
     }
 

@@ -1,5 +1,8 @@
 #include "DirectionalLight.h"
 
+#include <limits>
+
+using namespace std;
 using namespace Eigen;
 
 DirectionalLight::DirectionalLight(const Vector3f& direction, float intensity, const Vector3f& color)
@@ -16,4 +19,10 @@ Vector3f DirectionalLight::GetContributionAccordingToDistance(const Vector3f& hi
 {
     // The directional light is placed at infinity. Thus there is no falloff and the contribution is constant.
     return intensity * color;
+}
+
+float DirectionalLight::GetMaximalHitDistance(const Eigen::Vector3f& hitPoint) const
+{
+    // All hits when shadow tracing are viable.
+    return numeric_limits<float>::max();
 }

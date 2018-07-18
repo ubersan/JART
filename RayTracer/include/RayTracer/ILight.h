@@ -1,5 +1,6 @@
 #pragma once
 
+#include <limits>
 #include <Eigen/Core>
 
 class ILight
@@ -20,4 +21,7 @@ public:
     // This returns the direction from the hitpoint TO the light.
     virtual Eigen::Vector3f GetToLightDirection(const Eigen::Vector3f& hitPoint) const = 0;
     virtual Eigen::Vector3f GetContributionAccordingToDistance(const Eigen::Vector3f& hitPoint) const = 0;
+
+    // When shadow tracing a point light, hits with distance greater than the distance to the shaded object have to be ignored.
+    virtual float GetMaximalHitDistance(const Eigen::Vector3f& hitPoint) const = 0;
 };

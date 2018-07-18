@@ -19,3 +19,8 @@ Vector3f PointLight::GetContributionAccordingToDistance(const Vector3f& hitPoint
 
     return intensity * color / (4.f * M_PI * distance2);   
 }
+
+float PointLight::GetMaximalHitDistance(const Vector3f& hitPoint) const
+{
+    return (hitPoint - center).norm();
+}

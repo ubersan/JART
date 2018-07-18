@@ -11,6 +11,7 @@ public:
 
     Eigen::Vector3f GetToLightDirection(const Eigen::Vector3f& hitPoint) const;
     Eigen::Vector3f GetContributionAccordingToDistance(const Eigen::Vector3f& hitPoint) const;
+    float GetMaximalHitDistance(const Eigen::Vector3f& hitPoint) const;
 private:
     Eigen::Vector3f _direction;
 };
