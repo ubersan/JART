@@ -17,8 +17,13 @@ float clampToUnitInterval(float value)
     return max(0.f, min(1.f, value));
 }
 
+Vector3f reflect(const Vector3f& incidentDirection, const Vector3f& normal)
+{
+    return incidentDirection - 2.f*normal.dot(incidentDirection)*normal;
+}
+
 Scene::Scene(int width, int height, float fov, const string& resultDirectory /* = "." */)
-    : _width(width), _height(height), _fov(fov), _resultDirectory(resultDirectory)
+    : _width(width), _height(height), _fov(fov), _background(Vector3f::Zero()), _resultDirectory(resultDirectory)
 {
     _cameraToWorld = Matrix4f::Identity();
 
@@ -26,9 +31,9 @@ Scene::Scene(int width, int height, float fov, const string& resultDirectory /* 
     _cameraToWorld(2, 2) = -1.f;
 }
 
-void Scene::AddSphere(const Vector3f& center, float radius)
+void Scene::AddSphere(const Vector3f& center, float radius, Material material)
 {
-    _sceneObjects.push_back(make_unique<Sphere>(center, radius));
+    _sceneObjects.push_back(make_unique<Sphere>(center, radius, material));
 }
 
 void Scene::AddDirectionalLight(const Vector3f& direction, float intensity, const Vector3f& color)
@@ -41,9 +46,9 @@ void Scene::AddPointLight(const Vector3f& center, float intensity, const Vector3
     _lights.push_back(make_unique<PointLight>(center, intensity, color));
 }
 
-void Scene::AddPlane(const Eigen::Vector3f& pointOnPlane, const Eigen::Vector3f& normal)
+void Scene::AddPlane(const Eigen::Vector3f& pointOnPlane, const Eigen::Vector3f& normal, Material material)
 {
-    _sceneObjects.push_back(make_unique<Plane>(pointOnPlane, normal));
+    _sceneObjects.push_back(make_unique<Plane>(pointOnPlane, normal, material));
 }
 
 void Scene::SetBackground(const Eigen::Vector3f& background)
@@ -96,16 +101,25 @@ Vector3f Scene::CastRay(const Vector3f& origin, const Vector3f& direction, const
         {
             auto hitPoint = origin + t*direction;
             auto normal = hitObject->GetNormalAt(hitPoint);
-
-            for (const auto& light : _lights)
+            
+            switch (hitObject->material)
             {
-                auto toLight = light->GetToLightDirection(hitPoint);
+            case Material::DIFFUSE:
+                for (const auto& light : _lights)
+                {
+                    auto toLight = light->GetToLightDirection(hitPoint);
 
-                // shadow ray
-                auto [isInShadow, tShadow, shadowHitObject] = Trace(hitPoint + normal*1e-4, toLight, sceneObjects, light->GetMaximalHitDistance(hitPoint));
-                auto isVisible = isInShadow ? 0.f : 1.f;
+                    // shadow ray
+                    auto [isInShadow, tShadow, shadowHitObject] = Trace(hitPoint + normal*1e-4, toLight, sceneObjects, light->GetMaximalHitDistance(hitPoint));
+                    auto isVisible = isInShadow ? 0.f : 1.f;
 
-                hitColor.array() += isVisible * (light->GetContributionAccordingToDistance(hitPoint) * max(0.f, normal.dot(toLight))).array();
+                    hitColor += isVisible * (light->GetContributionAccordingToDistance(hitPoint) * max(0.f, normal.dot(toLight)));
+                }
+                break;
+            case Material::MIRROR:
+                auto reflectionDirection = reflect(_cameraToWorld.row(2).leftCols(3), normal);
+                hitColor += 0.8f * CastRay(hitPoint + normal*1e-4, reflectionDirection, sceneObjects);
+                break;
             }
         }
     }

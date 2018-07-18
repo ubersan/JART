@@ -3,8 +3,8 @@
 using namespace std;
 using namespace Eigen;
 
-Plane::Plane(const Vector3f& pointOnPlane, const Vector3f& normal)
-    : _pointOnPlane(pointOnPlane), _normal(normal)
+Plane::Plane(const Vector3f& pointOnPlane, const Vector3f& normal, Material material)
+    : IIntersectable(material), _pointOnPlane(pointOnPlane), _normal(normal)
 {
 }
 

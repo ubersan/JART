@@ -31,6 +31,7 @@ void Given_Two_DirectionalLights_On_Single_Sphere();
 void Given_Three_PointLights_Onto_Plane_In_Row();
 void Given_Three_PointLights_OnPlane_InTriangle_MixingTogether();
 void Given_Single_Sphere_And_Plane_With_Background_SkyBlue();
+void Given_Mirror_Plane_Single_Sphere();
 
 void When_Render();
 void Then_ImagesMatch();
@@ -115,13 +116,32 @@ TEST(Full_Scene, Single_Sphere_And_Plane_With_Background_SkyBlue)
     Then_ImagesMatch();
 }
 
+TEST(Full_Scene, Mirror_Plane_Single_Sphere)
+{
+    Given_Mirror_Plane_Single_Sphere();
+    When_Render();
+    Then_ImagesMatch();
+}
+
+void Given_Mirror_Plane_Single_Sphere()
+{
+    auto resultDirectory = Setup_TestEnvironment();
+    
+    scene = make_unique<Scene>(640, 480, 30, resultDirectory);
+    scene->AddPlane(Vector3f{0.f, -1.5f, 0.f}, Vector3f{0.f, 1.f, 0.f}, Material::MIRROR);
+    scene->AddSphere(Vector3f{0.f, -0.3f, -10.f}, 1.f, Material::DIFFUSE);
+    scene->AddDirectionalLight(Vector3f{0.f, -1.f, 0.f}, 1.f, Vector3f{1.f, 1.f, 1.f});
+    scene->SetBackground(Vector3f{0.36, 0.52f, 0.8f});
+    scene->SetCamera(Vector3f{1.f, 0.f, 0.f}, Vector3f{0.f, -0.45f, -1.f}.normalized(), Vector3f{0.f, 8.f, 10.f});
+}
+
 void Given_Single_Sphere_And_Plane_With_Background_SkyBlue()
 {
     auto resultDirectory = Setup_TestEnvironment();
     
     scene = make_unique<Scene>(640, 480, 30, resultDirectory);
-    scene->AddPlane(Vector3f{0.f, -1.5f, 0.f}, Vector3f{0.f, 1.f, 0.f});
-    scene->AddSphere(Vector3f{0.f, 0.f, -10.f}, 1.f);
+    scene->AddPlane(Vector3f{0.f, -1.5f, 0.f}, Vector3f{0.f, 1.f, 0.f}, Material::DIFFUSE);
+    scene->AddSphere(Vector3f{0.f, 0.f, -10.f}, 1.f, Material::DIFFUSE);
     scene->AddDirectionalLight(Vector3f{0.f, -1.f, 0.f}, 1.f, Vector3f{1.f, 1.f, 1.f});
     scene->SetBackground(Vector3f{0.36, 0.52f, 0.8f});
 }
@@ -132,7 +152,7 @@ void Given_Three_PointLights_OnPlane_InTriangle_MixingTogether()
     
     scene = make_unique<Scene>(640, 480, 30, resultDirectory);
 
-    scene->AddPlane(Vector3f{0.f, -1.5f, 0.f}, Vector3f{0.f, 1.f, 0.f});
+    scene->AddPlane(Vector3f{0.f, -1.5f, 0.f}, Vector3f{0.f, 1.f, 0.f}, Material::DIFFUSE);
     scene->AddPointLight(Vector3f{0.f, -1.f, -10.f - sqrtf(5.f)/16.f}, 3.25f, Vector3f{1.f, 0.f, 0.f});
     scene->AddPointLight(Vector3f{-0.125f, -1.f, -10.f + sqrtf(5.f)/16.f}, 3.25f, Vector3f{0.f, 1.f, 0.f});
     scene->AddPointLight(Vector3f{0.125f, -1.f, -10.f + sqrtf(5.f)/16.f}, 3.25f, Vector3f{0.f, 0.f, 1.f});
@@ -144,7 +164,7 @@ void Given_Three_PointLights_Onto_Plane_In_Row()
     auto resultDirectory = Setup_TestEnvironment();
     
     scene = make_unique<Scene>(640, 480, 30, resultDirectory);
-    scene->AddPlane(Vector3f{0.f, -1.5f, 0.f}, Vector3f{0.f, 1.f, 0.f});
+    scene->AddPlane(Vector3f{0.f, -1.5f, 0.f}, Vector3f{0.f, 1.f, 0.f}, Material::DIFFUSE);
     scene->AddPointLight(Vector3f{-1.f, -1.f, -10.f}, 5.f, Vector3f{1.f, 0.f, 0.f});
     scene->AddPointLight(Vector3f{0.f, -1.f, -10.f}, 5.f, Vector3f{0.f, 1.f, 0.f});
     scene->AddPointLight(Vector3f{1.f, -1.f, -10.f}, 5.f, Vector3f{0.f, 0.f, 1.f});
@@ -155,8 +175,8 @@ void Given_Two_DirectionalLights_On_Single_Sphere()
     auto resultDirectory = Setup_TestEnvironment();
     
     scene = make_unique<Scene>(640, 480, 30, resultDirectory);
-    scene->AddSphere(Vector3f{0.f, 0.f, -10.f}, 1.f);
-    scene->AddPlane(Vector3f{0.f, -1.5f, 0.f}, Vector3f{0.f, 1.f, 0.f});
+    scene->AddSphere(Vector3f{0.f, 0.f, -10.f}, 1.f, Material::DIFFUSE);
+    scene->AddPlane(Vector3f{0.f, -1.5f, 0.f}, Vector3f{0.f, 1.f, 0.f}, Material::DIFFUSE);
     scene->AddDirectionalLight(Vector3f{1.f, -1.f, 0.f}.normalized(), 1.f, Vector3f{1.f, 0.f, 0.f});
     scene->AddDirectionalLight(Vector3f{-1.f, -1.f, 0.f}.normalized(), 1.f, Vector3f{0.f, 0.f, 1.f});
 }
@@ -166,9 +186,9 @@ void Given_PointLight_Two_Spheres_Self_Shadowing()
     auto resultDirectory = Setup_TestEnvironment();
     
     scene = make_unique<Scene>(640, 480, 30, resultDirectory);
-    scene->AddSphere(Vector3f{0.f, 0.f, -10.f}, 1.f);
-    scene->AddSphere(Vector3f{-1.f, 1.f, -9.25f}, 0.25f);
-    scene->AddPlane(Vector3f{0.f, -1.5f, 0.f}, Vector3f{0.f, 1.f, 0.f});
+    scene->AddSphere(Vector3f{0.f, 0.f, -10.f}, 1.f, Material::DIFFUSE);
+    scene->AddSphere(Vector3f{-1.f, 1.f, -9.25f}, 0.25f, Material::DIFFUSE);
+    scene->AddPlane(Vector3f{0.f, -1.5f, 0.f}, Vector3f{0.f, 1.f, 0.f}, Material::DIFFUSE);
     scene->AddPointLight(Vector3f{-3.f, 5.f, -10.f}, 250.f, Vector3f{1.f, 1.f, 1.f});
 }
 
@@ -177,8 +197,8 @@ void Given_PointLight_On_Sphere_And_Plane()
     auto resultDirectory = Setup_TestEnvironment();
     
     scene = make_unique<Scene>(640, 480, 30, resultDirectory);
-    scene->AddSphere(Vector3f{0.f, 0.f, -10.f}, 1.f);
-    scene->AddPlane(Vector3f{0.f, -1.5f, 0.f}, Vector3f{0.f, 1.f, 0.f});
+    scene->AddSphere(Vector3f{0.f, 0.f, -10.f}, 1.f, Material::DIFFUSE);
+    scene->AddPlane(Vector3f{0.f, -1.5f, 0.f}, Vector3f{0.f, 1.f, 0.f}, Material::DIFFUSE);
     scene->AddPointLight(Vector3f{0.f, 5.f, -10.f}, 250.f, Vector3f{1.f, 1.f, 1.f});
 }
 
@@ -187,9 +207,9 @@ void Given_Two_Spheres_Self_Shadowing()
     auto resultDirectory = Setup_TestEnvironment();
     
     scene = make_unique<Scene>(640, 480, 30, resultDirectory);
-    scene->AddSphere(Vector3f{0.f, 0.f, -10.f}, 1.f);
-    scene->AddSphere(Vector3f{1.f, 1.f, -9.25f}, 0.25f);
-    scene->AddPlane(Vector3f{0.f, -1.5f, 0.f}, Vector3f{0.f, 1.f, 0.f});
+    scene->AddSphere(Vector3f{0.f, 0.f, -10.f}, 1.f, Material::DIFFUSE);
+    scene->AddSphere(Vector3f{1.f, 1.f, -9.25f}, 0.25f, Material::DIFFUSE);
+    scene->AddPlane(Vector3f{0.f, -1.5f, 0.f}, Vector3f{0.f, 1.f, 0.f}, Material::DIFFUSE);
     scene->AddDirectionalLight(Vector3f{-0.5f, -1.f, 0.f}.normalized(), 1.f, Vector3f{1.f, 1.f, 1.f});
 }
 
@@ -199,7 +219,7 @@ void Given_Scene_Small_Moved_White_Sphere()
     
     scene = make_unique<Scene>(640, 480, 30, resultDirectory);
     scene->SetCamera(Vector3f{1.f, 0.f, 0.f}, Vector3f{0.f, 0.f, -1.f}, Vector3f{0.f, 0.f, 10.f});
-    scene->AddSphere(Vector3f(2.f, 2.f, -10.f), 1.f);
+    scene->AddSphere(Vector3f(2.f, 2.f, -10.f), 1.f, Material::DIFFUSE);
 }
 
 void Given_Centered_Red_Sphere_With_Directional_Light()
@@ -207,7 +227,7 @@ void Given_Centered_Red_Sphere_With_Directional_Light()
     auto resultDirectory = Setup_TestEnvironment();
 
     scene = make_unique<Scene>(640, 480, 30, resultDirectory);
-    scene->AddSphere(Vector3f{0.f, 0.f, -10.f}, 1.f);
+    scene->AddSphere(Vector3f{0.f, 0.f, -10.f}, 1.f, Material::DIFFUSE);
     scene->AddDirectionalLight(Vector3f{0.f, -1.f, 0.f}, 1.f, Vector3f{1.f, 0.f, 0.f});
 }
 
@@ -217,8 +237,8 @@ void Given_Centered_Sphere_With_Shadow_On_Plane()
 
     scene = make_unique<Scene>(640, 480, 30, resultDirectory);
 
-    scene->AddSphere(Vector3f{0.f, 0.f, -10.f}, 1.f);
-    scene->AddPlane(Vector3f{0.f, -1.5f, 0.f}, Vector3f{0.f, 1.f, 0.f});
+    scene->AddSphere(Vector3f{0.f, 0.f, -10.f}, 1.f, Material::DIFFUSE);
+    scene->AddPlane(Vector3f{0.f, -1.5f, 0.f}, Vector3f{0.f, 1.f, 0.f}, Material::DIFFUSE);
     scene->AddDirectionalLight(Vector3f{-0.5f, -1.f, 0.f}.normalized(), 1.f, Vector3f{1.f, 1.f, 1.f});
 }
 
@@ -227,9 +247,9 @@ void Given_PointLight_InBetween_Two_Spheres()
     auto resultDirectory = Setup_TestEnvironment();
 
     scene = make_unique<Scene>(640, 480, 30, resultDirectory);
-    scene->AddSphere(Vector3f{-2.f, 0.f, -10.f}, 1.f);
-    scene->AddSphere(Vector3f{2.f, 0.f, -10.f}, 1.f);
-    scene->AddPlane(Vector3f{0.f, -1.5f, 0.f}, Vector3f{0.f, 1.f, 0.f});
+    scene->AddSphere(Vector3f{-2.f, 0.f, -10.f}, 1.f, Material::DIFFUSE);
+    scene->AddSphere(Vector3f{2.f, 0.f, -10.f}, 1.f, Material::DIFFUSE);
+    scene->AddPlane(Vector3f{0.f, -1.5f, 0.f}, Vector3f{0.f, 1.f, 0.f}, Material::DIFFUSE);
     scene->AddPointLight(Vector3f{0.f, 0.f, -10.f}, 10.f, Vector3f{1.f, 1.f, 1.f});
 }
 
