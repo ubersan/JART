@@ -74,7 +74,11 @@ Vector3f Scene::CastRay(const Vector3f& origin, const Vector3f& direction, const
     {
         hitColor = Vector3f(0.f, 0.f, 0.f);
 
-        if (shadingIsEnabled)
+        if (!shadingIsEnabled)
+        {
+            hitColor = Vector3f::Ones();
+        }
+        else
         {
             auto hitPoint = origin + t*direction;
             auto normal = hitObject->GetNormalAt(hitPoint);
