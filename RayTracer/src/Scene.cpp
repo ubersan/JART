@@ -51,6 +51,11 @@ void Scene::AddPlane(const Eigen::Vector3f& pointOnPlane, const Eigen::Vector3f&
     _sceneObjects.push_back(make_unique<Plane>(pointOnPlane, normal, material));
 }
 
+void Scene::AddPlane(const Eigen::Vector3f& center, const Eigen::Vector3f& normal, const Eigen::Vector3f& widthDirection, float totalWidth, float totalHeight, Material material)
+{
+    _sceneObjects.push_back(make_unique<Plane>(center, normal, widthDirection, totalWidth, totalHeight, material));
+}
+
 void Scene::SetBackground(const Eigen::Vector3f& background)
 {
     _background = background;

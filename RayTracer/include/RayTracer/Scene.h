@@ -20,6 +20,7 @@ public:
 
     void AddSphere(const Eigen::Vector3f& center, float radius, Material material);
     void AddPlane(const Eigen::Vector3f& pointOnPlane, const Eigen::Vector3f& normal, Material material);
+    void AddPlane(const Eigen::Vector3f& pointOnPlane, const Eigen::Vector3f& normal, const Eigen::Vector3f& widthDirection, float width, float height, Material material);
 
     void AddDirectionalLight(const Eigen::Vector3f& direction, float intensity, const Eigen::Vector3f& color);
     void AddPointLight(const Eigen::Vector3f& center, float intensity, const Eigen::Vector3f& color);
