@@ -33,6 +33,8 @@ void Given_Three_PointLights_OnPlane_InTriangle_MixingTogether();
 void Given_Single_Sphere_And_Plane_With_Background_SkyBlue();
 void Given_Mirror_Plane_Single_Sphere();
 void Given_Mirror_Bounded_Plane_With_Three_Spheres();
+void Given_Mirror_Planes_Against_Each_Other_No_Infinite_Recursion();
+void Given_Mirror_Sphere_On_Plane_With_Diffuse_Shadowing_Sphere();
 
 void When_Render();
 void Then_ImagesMatch();
@@ -129,6 +131,43 @@ TEST(Full_Scene, Mirror_Bounded_Plane_With_Three_Spheres)
     Given_Mirror_Bounded_Plane_With_Three_Spheres();
     When_Render();
     Then_ImagesMatch();
+}
+
+TEST(Full_Scene, Mirror_Planes_Against_Each_Other_No_Infinite_Recursion)
+{
+    Given_Mirror_Planes_Against_Each_Other_No_Infinite_Recursion();
+    When_Render();
+    Then_ImagesMatch();
+}
+
+TEST(Full_Scene, Mirror_Sphere_On_Plane_With_Diffuse_Shadowing_Sphere)
+{
+    Given_Mirror_Sphere_On_Plane_With_Diffuse_Shadowing_Sphere();
+    When_Render();
+    Then_ImagesMatch();
+}
+
+void Given_Mirror_Sphere_On_Plane_With_Diffuse_Shadowing_Sphere()
+{
+    auto resultDirectory = Setup_TestEnvironment();
+    
+    scene = make_unique<Scene>(640, 480, 30, resultDirectory);
+    scene->AddPlane(Vector3f{0.f, -1.5f, 0.f}, Vector3f{0.f, 1.f, 0.f}, Material::DIFFUSE);
+    scene->AddSphere(Vector3f{0.f, -0.3f, -10.f}, 1.f, Material::MIRROR);
+    scene->AddSphere(Vector3f{-1.f, 1.f, -9.f}, 0.5f, Material::DIFFUSE);
+    scene->AddDirectionalLight(Vector3f{0.f, -1.f, 0.f}, 1.f, Vector3f{1.f, 1.f, 1.f});
+    scene->SetBackground(Vector3f{0.36, 0.52f, 0.8f});
+}
+
+void Given_Mirror_Planes_Against_Each_Other_No_Infinite_Recursion()
+{
+    auto resultDirectory = Setup_TestEnvironment();
+    
+    scene = make_unique<Scene>(640, 480, 30, resultDirectory);
+    scene->AddPlane(Vector3f{0.f, 0.f, -10.f}, Vector3f{0.f, 0.f, 1.f}, Vector3f{1.f, 0.f, 0.f}, 2.f, 2.f, Material::MIRROR);
+    scene->AddPlane(Vector3f{0.f, 0.f, 10.f}, Vector3f{0.f, 0.f, -1.f}, Vector3f{-1.f, 0.f, 0.f}, 2.f, 2.f, Material::MIRROR);
+    scene->AddDirectionalLight(Vector3f{0.f, -1.f, 0.f}, 1.f, Vector3f{1.f, 1.f, 1.f});
+    scene->SetBackground(Vector3f{0.36, 0.52f, 0.8f});   
 }
 
 void Given_Mirror_Bounded_Plane_With_Three_Spheres()

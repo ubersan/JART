@@ -30,7 +30,7 @@ public:
 
 private:
     std::tuple<bool, float, IIntersectable*> Trace(const Eigen::Vector3f& origin, const Eigen::Vector3f& direction, const std::vector<std::unique_ptr<IIntersectable>>& sceneObjects, float maxHitDistance = std::numeric_limits<float>::max());
-    Eigen::Vector3f CastRay(const Eigen::Vector3f& origin, const Eigen::Vector3f& direction, const std::vector<std::unique_ptr<IIntersectable>>& sceneObjects);
+    Eigen::Vector3f CastRay(const Eigen::Vector3f& origin, const Eigen::Vector3f& direction, const std::vector<std::unique_ptr<IIntersectable>>& sceneObjects, int depth);
     void exportToFile(const std::vector<Eigen::Vector3f>& pixels);
     
     int _width;

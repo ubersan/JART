@@ -87,9 +87,14 @@ tuple<bool, float, IIntersectable*> Scene::Trace(const Vector3f& origin, const V
     return make_tuple(hitObject != nullptr, tNear, hitObject);
 }
 
-Vector3f Scene::CastRay(const Vector3f& origin, const Vector3f& direction, const vector<unique_ptr<IIntersectable>>& sceneObjects)
+Vector3f Scene::CastRay(const Vector3f& origin, const Vector3f& direction, const vector<unique_ptr<IIntersectable>>& sceneObjects, int depth)
 {
     Vector3f hitColor = _background;
+
+    if (depth == 10)
+    {
+        return hitColor;
+    }
 
     // when no lights are present in the scene, we just do flat shading for debuggin.
     auto shadingIsEnabled = _lights.size() > 0;
@@ -123,7 +128,7 @@ Vector3f Scene::CastRay(const Vector3f& origin, const Vector3f& direction, const
                 break;
             case Material::MIRROR:
                 auto reflectionDirection = reflect(_cameraToWorld.row(2).leftCols(3), normal);
-                hitColor += 0.8f * CastRay(hitPoint + normal*1e-4, reflectionDirection, sceneObjects);
+                hitColor += 0.8f * CastRay(hitPoint + normal*1e-4, reflectionDirection, sceneObjects, depth + 1);
                 break;
             }
         }
@@ -160,7 +165,7 @@ void Scene::Render()
             auto y = (1 - 2 * (row + 0.5f) / (float)_height) * scale / aspectRatio;
             
             auto direction = (cameraToWorldBasis * Vector3f(x, y, 1)).normalized();     
-            *(pixelIter++) = CastRay(origin, direction, _sceneObjects);
+            *(pixelIter++) = CastRay(origin, direction, _sceneObjects, 0);
         }
     }
 
