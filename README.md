@@ -2,7 +2,7 @@
 
 JART - Just another raytracer
 
-![alt text](Renderer/screenshots/threeColorsMining.ppm)
+![alt text](Renderer/screenshots/threeColorsMining.png)
 
 ## Installing
 
