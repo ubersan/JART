@@ -1,6 +1,6 @@
 # OpenTrace
 
-A Cross-platform raytracer
+JART - Just another raytracer
 
 ## Installing
 
