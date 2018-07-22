@@ -1,6 +1,4 @@
-# JART
-
-JART - Just another raytracer
+# JART - Just another raytracer
 
 ![alt text](Renderer/screenshots/threeColorsMining.png)
 
