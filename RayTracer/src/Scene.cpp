@@ -1,6 +1,7 @@
 #include "Scene.h"
 #include "Sphere.h"
 #include "Plane.h"
+#include "Triangle.h"
 #include "PointLight.h"
 #include "DirectionalLight.h"
 
@@ -59,6 +60,11 @@ void Scene::AddPlane(const Eigen::Vector3f& center, const Eigen::Vector3f& norma
 void Scene::SetBackground(const Eigen::Vector3f& background)
 {
     _background = background;
+}
+
+void Scene::AddTriangle(const Eigen::Vector3f& a, const Eigen::Vector3f& b, const Eigen::Vector3f& c, Material material)
+{
+    _sceneObjects.push_back(make_unique<Triangle>(a, b, c, material));
 }
 
 void Scene::SetCamera(const Vector3f& right, const Vector3f lookAt, const Vector3f& position)

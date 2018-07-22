@@ -9,12 +9,9 @@ int main(int argc, char **argv)
 {    
     auto scene = Scene(640, 480, 30);
 
-    scene.AddPlane(Vector3f{0.f, -1.5f, 0.f}, Vector3f{0.f, 1.f, 0.f}, Material::DIFFUSE);
-    scene.AddSphere(Vector3f{0.f, -0.3f, -10.f}, 1.f, Material::MIRROR);
-    scene.AddSphere(Vector3f{-1.f, 1.f, -9.f}, 0.5f, Material::DIFFUSE);
-    scene.AddDirectionalLight(Vector3f{0.f, -1.f, 0.f}, 1.f, Vector3f{1.f, 1.f, 1.f});
-
-    scene.SetBackground(Vector3f{0.36, 0.52f, 0.8f});
+    scene.AddTriangle(Vector3f{2.5f, 0.f, -10.f}, Vector3f{-0.5f, 1.f, -10.f}, Vector3f{-1.5f, 0.5f, -10.f}, Material::DIFFUSE);
+    //scene.AddPlane(Vector3f{0.f, -1.5, -15.f}, Vector3f{0.f, 0.f, 1.f}, Material::DIFFUSE);
+    scene.AddDirectionalLight(Vector3f{0.f, 0.f, -1.f}, 1.f, Vector3f{1.f, 1.f, 1.f});
 
     scene.Render();
 
