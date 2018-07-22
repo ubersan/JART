@@ -1,4 +1,4 @@
-# OpenTrace
+# JART
 
 JART - Just another raytracer
 
@@ -7,8 +7,8 @@ JART - Just another raytracer
 ## Installing
 
 ```
-git clone --recursive https://github.com/sandrohuber/OpenTrace.git
-cd OpenTrace
+git clone --recursive https://github.com/sandrohuber/JART.git
+cd JART
 mkdir build
 cd build
 cmake .. -DCMAKE_BUILD_TYPE=[Debug or Release]
