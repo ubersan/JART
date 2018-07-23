@@ -35,6 +35,7 @@ void Given_Mirror_Plane_Single_Sphere();
 void Given_Mirror_Bounded_Plane_With_Three_Spheres();
 void Given_Mirror_Planes_Against_Each_Other_No_Infinite_Recursion();
 void Given_Mirror_Sphere_On_Plane_With_Diffuse_Shadowing_Sphere();
+void Given_Two_Triangles_Different_Angles_To_Light_And_Camera();
 
 void When_Render();
 void Then_ImagesMatch();
@@ -145,6 +146,23 @@ TEST(Full_Scene, Mirror_Sphere_On_Plane_With_Diffuse_Shadowing_Sphere)
     Given_Mirror_Sphere_On_Plane_With_Diffuse_Shadowing_Sphere();
     When_Render();
     Then_ImagesMatch();
+}
+
+TEST(Full_Scene, Two_Triangles_Different_Angles_To_Light_And_Camera)
+{
+    Given_Two_Triangles_Different_Angles_To_Light_And_Camera();
+    When_Render();
+    Then_ImagesMatch();
+}
+
+void Given_Two_Triangles_Different_Angles_To_Light_And_Camera()
+{
+    auto resultDirectory = Setup_TestEnvironment();
+    
+    scene = make_unique<Scene>(640, 480, 30, resultDirectory);
+    scene->AddTriangle(Vector3f{2.5f, 0.f, -10.f}, Vector3f{-0.5f, 1.f, -10.f}, Vector3f{-1.5f, 0.5f, -10.f}, Material::DIFFUSE);
+    scene->AddTriangle(Vector3f{1.5f, -1.f, -10.f}, Vector3f{-1.5f, 0.25f, -10.f}, Vector3f{-0.5f, -0.5f, -7.f}, Material::DIFFUSE);
+    scene->AddDirectionalLight(Vector3f{0.f, 0.f, -1.f}, 1.f, Vector3f{1.f, 1.f, 1.f});
 }
 
 void Given_Mirror_Sphere_On_Plane_With_Diffuse_Shadowing_Sphere()
